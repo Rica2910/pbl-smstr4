@@ -1,21 +1,26 @@
-import React from 'react';
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, TextInput, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import Navbar from '../../components/Navbar';
+import Navbar from "../../components/Navbar";
 import CustomButton from "../../components/CustomButton";
 
 const SignUp = () => {
   return (
-    <SafeAreaView className="h-full bg-gray-80">
+    <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
-        <Navbar title="Register" />
+        <View className="items-center justify-center mt-5 px-4 h-full w-full">
+          <Text className="font-bold text-secondary text-[27px]">
+            Daftar Akun
+          </Text>
 
-        <View className="items-center mt-5 px-4">
-          <Text className="font-bold text-secondary text-[27px]">Daftar Akun</Text>
-
-          
           <View className="w-full max-w-md flex flex-col gap-4 mt-5">
             {[
               "Email",
@@ -24,9 +29,12 @@ const SignUp = () => {
               "Masukkan nama rekening",
               "Masukkan nomor rekening",
               "Masukkan password",
-              "Konfirmasi password"
+              "Konfirmasi password",
             ].map((placeholder, idx) => (
-              <View key={idx} className="bg-primary rounded-lg border border-gray-200 px-3 py-3">
+              <View
+                key={idx}
+                className="bg-primary rounded-lg border border-gray-200 px-3 py-3"
+              >
                 <TextInput
                   placeholder={placeholder}
                   placeholderTextColor="gray"
@@ -35,12 +43,17 @@ const SignUp = () => {
               </View>
             ))}
 
-            <CustomButton 
+            <CustomButton
               title="Daftar"
-              handlePress={() => router.push('/sign-in')}
-              containerStyles={' mt-3'}
+              handlePress={() => router.push("/sign-in")}
+              containerStyles={" mt-3"}
             />
-
+          </View>
+          <View className="mt-2 flex-row">
+            <Text className="text-gray-400">Sudah punya akun?</Text>
+            <TouchableOpacity onPress={() => router.push("/sign-up")}>
+              <Text className="text-secondary ml-1">Login di sini</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
