@@ -51,7 +51,7 @@ const SignUp = () => {
           </View>
           <View className="mt-2 flex-row">
             <Text className="text-gray-400">Sudah punya akun?</Text>
-            <TouchableOpacity onPress={() => router.push("/sign-up")}>
+            <TouchableOpacity onPress={() => router.push("/sign-in")}>
               <Text className="text-secondary ml-1">Login di sini</Text>
             </TouchableOpacity>
           </View>

@@ -7,7 +7,7 @@ import "../../global.css";
 
 const TabsIcon = ({ icon, color, focused, name }) => {
   return (
-    <View className="items-center justify-center gap-2 w-20">
+    <View className="items-center justify-center gap-2 w-20 ">
       <Image
         source={icon}
         resizeMode="contain"
@@ -36,7 +36,7 @@ const TabsLayout = () => {
             backgroundColor: "#fff",
             borderTopWidth: 1,
             borderTopColor: "#232533",
-            height: 84,
+            height : 82,
           },
         }}
       >
@@ -46,12 +46,14 @@ const TabsLayout = () => {
             title: "Home",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => {
-              <TabsIcon
+              return(
+                <TabsIcon
                 name={"Home"}
                 color={color}
                 icon={icons.home}
                 focused={focused}
-              />;
+              />
+              )             
             },
           }}
         />
@@ -61,12 +63,14 @@ const TabsLayout = () => {
             title: "Tong",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => {
-              <TabsIcon
+              return (
+                <TabsIcon
                 name={"Tong"}
                 color={color}
                 icon={icons.home}
                 focused={focused}
-              />;
+              />
+              )            
             },
           }}
         />
@@ -76,12 +80,14 @@ const TabsLayout = () => {
             title: "Riwayat",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => {
-              <TabsIcon
+              return (
+                <TabsIcon
                 name={"Riwayat"}
                 color={color}
                 icon={icons.bookmark}
                 focused={focused}
-              />;
+              />
+              )             
             },
           }}
         />
@@ -91,12 +97,14 @@ const TabsLayout = () => {
             title: "Profil",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => {
-              <TabsIcon
+              return (
+                <TabsIcon
                 name={"Profil"}
                 color={color}
                 icon={icons.profile}
                 focused={focused}
-              />;
+              />
+              )
             },
           }}
         />

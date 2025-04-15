@@ -37,7 +37,7 @@ const SignIn = () => {
             <CustomButton
               title={"Login"}
               containerStyles={"mt-3"}
-              handlePress={() => router.push("/home")}
+              handlePress={() => router.push("/riwayat")}
             />
           </View>
 
