@@ -31,12 +31,12 @@ const TabsLayout = () => {
         screenOptions={{
           tabBarShowLabel: false,
           tabBarActiveTintColor: "#2dcd6e",
-          tabBarInactiveBackgroundColor: "#ACDCE0",
+          tabBarInactiveBackgroundColor: "#fff",
           tabBarStyle: {
             backgroundColor: "#fff",
             borderTopWidth: 1,
             borderTopColor: "#232533",
-            height : 82,
+            height: 82,
           },
         }}
       >
@@ -46,14 +46,14 @@ const TabsLayout = () => {
             title: "Home",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => {
-              return(
+              return (
                 <TabsIcon
-                name={"Home"}
-                color={color}
-                icon={icons.home}
-                focused={focused}
-              />
-              )             
+                  name={"Home"}
+                  color={color}
+                  icon={icons.home}
+                  focused={focused}
+                />
+              );
             },
           }}
         />
@@ -65,12 +65,12 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => {
               return (
                 <TabsIcon
-                name={"Tong"}
-                color={color}
-                icon={icons.home}
-                focused={focused}
-              />
-              )            
+                  name={"Tong"}
+                  color={color}
+                  icon={icons.plus}
+                  focused={focused}
+                />
+              );
             },
           }}
         />
@@ -82,12 +82,12 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => {
               return (
                 <TabsIcon
-                name={"Riwayat"}
-                color={color}
-                icon={icons.bookmark}
-                focused={focused}
-              />
-              )             
+                  name={"Riwayat"}
+                  color={color}
+                  icon={icons.bookmark}
+                  focused={focused}
+                />
+              );
             },
           }}
         />
@@ -99,12 +99,12 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => {
               return (
                 <TabsIcon
-                name={"Profil"}
-                color={color}
-                icon={icons.profile}
-                focused={focused}
-              />
-              )
+                  name={"Profil"}
+                  color={color}
+                  icon={icons.profile}
+                  focused={focused}
+                />
+              );
             },
           }}
         />

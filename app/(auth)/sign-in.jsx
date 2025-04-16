@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   View,
@@ -12,8 +12,21 @@ import "../../global.css";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
 import Navbar from "../../components/Navbar";
+import CustomFormField from "../../components/CustomFormField";
 
 const SignIn = () => {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const submit = async () => {
+    console.log("Welcome ." + form.email);
+    router.push("/home");
+  };
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -21,23 +34,29 @@ const SignIn = () => {
           <Text className="font-bold text-[28px] text-black">Re-App</Text>
 
           <View className="w-[80%] max-w-md flex flex-col gap-4 mt-5">
-            {["Email", "Password"].map((placeholder, idx) => (
-              <View
-                key={idx}
-                className="bg-primary rounded-lg border border-gray-200 px-3 py-3"
-              >
-                <TextInput
-                  placeholder={placeholder}
-                  placeholderTextColor="gray"
-                  style={{ fontSize: 12 }}
-                />
-              </View>
-            ))}
+            <View className="bg-primary rounded-lg">
+              <CustomFormField
+                title="Email"
+                placeholder="Email"
+                value={form.email}
+                handleChangeText={(e) => setForm({ ...form, email: e })}
+                otherStyles="mt-7"
+                keyboardStyles="email-address"
+              />
+              <CustomFormField
+                title="Password"
+                placeholder="Password"
+                value={form.password}
+                handleChangeText={(e) => setForm({ ...form, password: e })}
+                otherStyles="mt-7"
+              />
+            </View>
 
             <CustomButton
               title={"Login"}
               containerStyles={"mt-3"}
-              handlePress={() => router.push("/riwayat")}
+              handlePress={submit}
+              isLoading={isSubmitting}
             />
           </View>
 
