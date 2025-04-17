@@ -1,69 +1,80 @@
-import { View, Text, ScrollView, Button } from "react-native";
+import { View, Text, FlatList, RefreshControl } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomSearchField from "../../components/CustomSearchField";
 import CustomTypeButton from "../../components/CustomTypeButton";
 import CustomItemCard from "../../components/CustomItemCard";
+import CustomEmptyState from "../../components/CustomEmptyState";
 
 const Home = () => {
   const [search, setSearch] = useState({
     search: "",
   });
 
-  const [isActive, setIsActive] = useState({ button: "" });
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const type = async (placeholder) => {
-    console.log(placeholder);
-    setIsActive({ ...isActive, button: placeholder });
-  };
+  const dummyData = [
+    "Semua",
+    "Elektronik",
+    "Kaca",
+    "Kertas",
+    "Logam",
+    "Minyak",
+    "Plastik" ?? [],
+  ];
+
+  const dummyData2 = ["Tv", "Kulkas", "Monitor"];
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      <ScrollView>
-        <View className="w-full h-full px-4">
-          <CustomSearchField
-            title="Search"
-            value={search.search}
-            handleChangeText={(e) => setSearch({ ...search, search: e })}
-            otherStyles="mt-7"
+      <FlatList
+        data={dummyData2}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <CustomItemCard
+            title={item}
+            poin="6500"
+            type="Elektronik"
+            unitType="Unit"
+            containerStyles="mt-5"
           />
-          <View className="flex-row flex-wrap gap-1">
-            {[
-              "Semua",
-              "Elektronik",
-              "Kaca",
-              "Kertas",
-              "Logam",
-              "Minyak",
-              "Plastik",
-            ].map((placeholder, idx) => (
-              <CustomTypeButton
-                title={placeholder}
-                key={idx}
-                setIsActive={setIsActive}
-                isActive={isActive}
-                handlePress={() => type(placeholder)}
-                containerStyles="mt-3"
-              />
-            ))}
+        )}
+        ListHeaderComponent={() => (
+          <View className="px-4">
+            <View className="mt-5 h-20 justify-center">
+              <Text className="text-3xl font-pmedium">
+                Welcome, <Text className="text-secondary">Rifad</Text>
+              </Text>
+            </View>
+            <CustomSearchField
+              title="Search"
+              placeholder="Cari sampah yang ingin ditambahkan"
+              value={search.search}
+              handleChangeText={(e) => setSearch({ ...search, search: e })}
+            />
+
+            <CustomTypeButton data={dummyData} containerStyles="mt-2" />
           </View>
-          <View className="flex-row justify-between flex-wrap">
-            {["Monitor", "Tv", "Speaker"].map((placeholder, idx) => (
-              <CustomItemCard
-                source="lala"
-                key={idx}
-                containerStyles="mt-5"
-                title={placeholder}
-                type="Elektronik"
-                poin="65000"
-                unitType="unit"
-              />
-            ))}
-          </View>
-        </View>
-      </ScrollView>
+        )}
+        ListEmptyComponent={() => (
+          <CustomEmptyState
+            title="Jenis sampah yang anda cari tidak ada"
+            subtitle="Silahkan hubungi admin agar jenis sampah tersebut ditambahkan"
+          />
+        )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
     </SafeAreaView>
   );
 };

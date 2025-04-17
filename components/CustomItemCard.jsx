@@ -18,7 +18,7 @@ const CustomItemCard = ({
 
   return (
     <View
-      className={`w-52 h-80 justify-center items-center ${containerStyles}`}
+      className={`w-60 h-80 justify-center items-center ${containerStyles}`}
     >
       <Image source={images.cards} className="w-40 h-40" resizeMode="cover" />
       <Text className="font-psemibold text-xl">{title}</Text>
@@ -28,7 +28,7 @@ const CustomItemCard = ({
       </Text>
 
       <CustomButton
-        title="Tambahkan ke Tong"
+        title="Tambahkan"
         handlePress={() => addToTong(title)}
         containerStyles="mt-5"
       />
