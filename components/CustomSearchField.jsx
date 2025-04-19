@@ -18,14 +18,15 @@ const CustomSearchField = ({
 
   return (
     <View className={`space-y-2 ${otherStyles}`}>
-      <View className="w-full h-16 px-4 bg-primary border border-secondary rounded-2xl items-center flex-row focus:border-secondary">
+      <View className="w-full py-2 px-4 bg-primary border border-secondary rounded-2xl items-center flex-row focus:border-secondary">
         <TextInput
-          className="flex-1 text-black font-psemibold text-base"
+          className="flex-1 text-black font-psemibold text-base "
           value={value}
           placeholder="Cari sampah untuk di serahkan"
           onChangeText={handleChangeText}
           secureTextEntry={title === "Password" && !showPassword}
           keyboardType={keyboardStyles}
+          textAlignVertical="center"
         />
         <TouchableOpacity onPress={searching}>
           <Image

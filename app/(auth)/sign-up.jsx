@@ -97,7 +97,7 @@ const SignUp = () => {
             <CustomButton
               title="Daftar"
               handlePress={register}
-              containerStyles={" mt-3"}
+              containerStyles={" mt-3 h-[55px]"}
             />
           </View>
           <View className="mt-2 flex-row">

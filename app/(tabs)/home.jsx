@@ -37,7 +37,7 @@ const Home = () => {
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={dummyData2}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item}
         numColumns={2}
         renderItem={({ item }) => (
           <CustomItemCard

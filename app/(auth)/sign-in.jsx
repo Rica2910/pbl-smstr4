@@ -54,9 +54,10 @@ const SignIn = () => {
 
             <CustomButton
               title={"Login"}
-              containerStyles={"mt-3"}
+              containerStyles={"mt-3 h-[50px]"}
               handlePress={submit}
               isLoading={isSubmitting}
+              
             />
           </View>
 
