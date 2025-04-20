@@ -22,7 +22,7 @@ const Riwayat = () => {
   const dummyData = [{
     id: '1',
     title: 'Pick Up',
-    date: ' 22 Oktober 2024:15:30 WIB',
+    date: '22 Oktober 2024:15:30 WIB',
     poin: '+4400 poin',
     icon: icons.truck,
   }];

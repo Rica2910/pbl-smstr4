@@ -60,8 +60,8 @@ const Tong = () => {
                   handlePress={() => router.push('/')}
                   containerStyles={' mt-7 py-[20px] w-[95%] self-center rounded-none'}
                 />
-                <TouchableOpacity onPress={handleDeleteAll}>
-                  <Text className="text-red-500 px-4 mt-3 text-lg">Hapus Semua</Text>
+                <TouchableOpacity onPress={handleDeleteAll} className=" mt-3">
+                  <Text className="text-red-500 px-4 text-lg">Hapus Semua</Text>
                   </TouchableOpacity>
               </>
             )
