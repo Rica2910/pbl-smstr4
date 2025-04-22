@@ -11,9 +11,12 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
-import truck from "../assets/icons/truck.png"
-import calendar from "../assets/icons/calendar.png"
-
+import truck from "../assets/icons/truck.png";
+import truckStatus from "../assets/icons/truck-status.png";
+import calendar from "../assets/icons/calendar.png";
+import trashcan from "../assets/icons/trashcan.png";
+import box from "../assets/icons/boxes.png";
+import neraca from "../assets/icons/budget-balance.png";
 
 export default {
   play,
@@ -31,4 +34,8 @@ export default {
   eye,
   truck,
   calendar,
+  trashcan,
+  box,
+  neraca,
+  truckStatus,
 };

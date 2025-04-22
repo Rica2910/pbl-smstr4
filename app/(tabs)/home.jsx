@@ -5,6 +5,7 @@ import CustomSearchField from "../../components/CustomSearchField";
 import CustomTypeButton from "../../components/CustomTypeButton";
 import CustomItemCard from "../../components/CustomItemCard";
 import CustomEmptyState from "../../components/CustomEmptyState";
+import { StatusBar } from "expo-status-bar";
 
 const Home = () => {
   const [search, setSearch] = useState({
@@ -52,7 +53,7 @@ const Home = () => {
           <View className="px-4">
             <View className="mt-5 h-20 justify-center">
               <Text className="text-3xl font-pmedium">
-                Welcome, <Text className="text-secondary">Rifad</Text>
+                Selamat datang, <Text className="text-secondary">Aiman</Text>
               </Text>
             </View>
             <CustomSearchField
@@ -75,6 +76,7 @@ const Home = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      <StatusBar style="dark" backgroundColor="#fff" />
     </SafeAreaView>
   );
 };
