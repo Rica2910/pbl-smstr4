@@ -4,6 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images, icons } from "../../constants";
 import { StatusBar } from "expo-status-bar";
 import CustomButtonStatus from "../../components/CustomButtonStatus";
+import CustomProfilHeader from "../../components/CustomProfilHeader";
+import CustomFlatButton from "../../components/CustomFlatButton";
+import CustomGap from "../../components/CustomGap";
 
 const Profil = () => {
   const dummyData = [
@@ -13,18 +16,27 @@ const Profil = () => {
       handlePress: () => console.log("di proses"),
     },
     {
-      title: "Di timbang",
-      icon: icons.neraca,
-      handlePress: () => console.log("di timbang"),
-    },
-    {
       title: "Di jemput",
       icon: icons.truckStatus,
       handlePress: () => console.log("di jemput"),
     },
+    {
+      title: "Di timbang",
+      icon: icons.neraca,
+      handlePress: () => console.log("di timbang"),
+    },
   ];
 
   const dummyData2 = ["82l"];
+
+  const dummyData3 = [
+    {
+      nama: "Aiman",
+      tier: "gold",
+      poin: "60000",
+      avatar: images.profile,
+    },
+  ];
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -35,37 +47,25 @@ const Profil = () => {
         ListHeaderComponent={() => (
           <View>
             <View className="bg-secondary w-full p-4 h-40 ">
-              <View className="flex-row items-center mt-10">
-                <Image
-                  source={images.profile}
-                  className="w-20 h-20 rounded-full"
-                />
-                <View className="pl-4">
-                  <View className="flex-row items-center">
-                    <Text className="font-pmedium text-2xl text-primary">
-                      Aiman
-                    </Text>
-                    <View className="rounded-lg bg-gold justify-center items-center w-20 h-5 ml-2">
-                      <Text className="font-pmedium">Gold</Text>
-                    </View>
-                  </View>
-                  <Text className="font-pmedium text-sm text-primary">
-                    60000 <Text>Point</Text>
-                  </Text>
-                </View>
-              </View>
+              <CustomProfilHeader data={dummyData3} />
             </View>
-            <View className="px-4 h-40 justify-center">
-              <Text>Lihat status pesanan</Text>
-              <CustomButtonStatus
-                data={dummyData}
-                containerStyles="h-[50px] mt-3"
+
+            <View className="px-4 h-40 justify-center mt-5 border-b border-secondary">
+              <Text className="font-pmedium mb-5">Lihat status pesanan</Text>
+              <CustomButtonStatus data={dummyData} containerStyles="" />
+            </View>
+            <View className="p-4 border-b border-secondary">
+              <CustomFlatButton
+                title="Tukarkan poin"
+                icon={icons.transfer}
+                handlePress={() => console.log("penukaran koin berhasil")}
               />
             </View>
-            <StatusBar style="dark" backgroundColor="#2dcd6e" />
+            <CustomGap />
           </View>
         )}
       />
+      <StatusBar style="dark" backgroundColor="#2dcd6e" />
     </SafeAreaView>
   );
 };

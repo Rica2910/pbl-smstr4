@@ -17,6 +17,8 @@ import calendar from "../assets/icons/calendar.png";
 import trashcan from "../assets/icons/trashcan.png";
 import box from "../assets/icons/boxes.png";
 import neraca from "../assets/icons/budget-balance.png";
+import transfer from "../assets/icons/transfer.png";
+import poin from "../assets/icons/poin.png";
 
 export default {
   play,
@@ -38,4 +40,6 @@ export default {
   box,
   neraca,
   truckStatus,
+  transfer,
+  poin,
 };

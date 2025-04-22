@@ -12,12 +12,11 @@ const CustomButtonStatus = ({
     <FlatList
       data={data}
       keyExtractor={(item) => item.id}
-      numColumns={1}
       renderItem={({ item }) => (
         <TouchableOpacity
           onPress={item.handlePress}
           activeOpacity={0.7}
-          className={`justify-center items-center px-4  ${
+          className={`justify-center items-center px-4 mr-16 ${
             isLoading ? "opacity-50" : ""
           } ${containerStyles || ""}`}
           disabled={isLoading}
@@ -28,9 +27,7 @@ const CustomButtonStatus = ({
             resizeMode="contain"
             style={{ tintColor: "#2dcd6e" }}
           />
-          <Text
-            className={`text-secondary font-pregular text-sm ${textStyles}`}
-          >
+          <Text className={`font-pmedium text-sm ${textStyles}`}>
             {item.title}
           </Text>
         </TouchableOpacity>
