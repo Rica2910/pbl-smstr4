@@ -7,6 +7,7 @@ import CustomButtonStatus from "../../components/CustomButtonStatus";
 import CustomProfilHeader from "../../components/CustomProfilHeader";
 import CustomFlatButton from "../../components/CustomFlatButton";
 import CustomGap from "../../components/CustomGap";
+import CustomTierProgress from "../../components/CustomTierProgress";
 
 const Profil = () => {
   const dummyData = [
@@ -27,13 +28,12 @@ const Profil = () => {
     },
   ];
 
-  const dummyData2 = ["82l"];
-
   const dummyData3 = [
     {
       nama: "Aiman",
-      tier: "gold",
+      tier: "Silver",
       poin: "60000",
+      penukaran: 50,
       avatar: images.profile,
     },
   ];
@@ -41,9 +41,13 @@ const Profil = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
-        data={dummyData2}
+        data={dummyData3}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <Text>{item}</Text>}
+        renderItem={({ item }) => (
+          <View>
+            <CustomTierProgress data={item} />
+          </View>
+        )}
         ListHeaderComponent={() => (
           <View>
             <View className="bg-secondary w-full p-4 h-40 ">

@@ -21,7 +21,7 @@ module.exports = {
           100: "#CDCDE0",
           80: "#4D4D4D",
         },
-        gold: "#FFD700",
+        gold: "#D3AF37",
         goldenRod: "#DAA520",
         silver: "#C0C0C0",
         bronze: "#CE8946",

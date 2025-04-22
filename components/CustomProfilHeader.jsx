@@ -17,9 +17,9 @@ const CustomProfilHeader = ({ data }) => {
               </Text>
               <View
                 className={`rounded-lg ${
-                  item.tier === "gold"
+                  item.tier === "Gold"
                     ? "bg-gold"
-                    : item.tier === "silver"
+                    : item.tier === "Silver"
                     ? "bg-silver"
                     : "bg-bronze"
                 }  justify-center items-center w-20 h-6 ml-2`}
