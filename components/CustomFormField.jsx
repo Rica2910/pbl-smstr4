@@ -10,12 +10,59 @@ const CustomFormField = ({
   handleChangeText,
   otherStyles,
   keyboardStyles,
+  regex,
+  validationMessage,
+  setEmailValidation,
+  emailValidation,
+  passwordValue,
+  isEmpty,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [validationMessageError, setValidationMessageError] = useState();
+
+  const validate = (value) => {
+    const isValid = regex.test(value);
+    if (!isValid) {
+      setValidationMessageError(validationMessage);
+      setEmailValidation(false);
+    } else {
+      setValidationMessageError();
+      setEmailValidation(true);
+    }
+  };
+
+  const confirmPassword = (value) => {
+    if (passwordValue !== value) {
+      setValidationMessageError(validationMessage);
+    } else {
+      setValidationMessageError();
+    }
+  };
+
+  const validatePassword = (value) => {
+    if (value.length < 8) {
+      setValidationMessageError(validationMessage);
+    } else {
+      setValidationMessageError();
+    }
+  };
+
+  const validateField = (value) => {
+    if (!value) {
+      setValidationMessageError(validationMessage);
+    } else {
+      setValidationMessageError();
+    }
+  };
+
   return (
     <View className={`space-y-2 ${otherStyles}`}>
-      <View className="w-full h-16 px-4 bg-primary border border-secondary rounded-2xl items-center flex-row focus:border-secondary">
+      <View
+        className={`w-full h-16 px-4 bg-primary border rounded-2xl items-center flex-row focus:border-secondary ${
+          !validationMessageError ? "border-secondary" : "border-red-500"
+        }`}
+      >
         <TextInput
           className="flex-1 text-black font-psemibold text-base"
           value={value}
@@ -23,6 +70,15 @@ const CustomFormField = ({
           onChangeText={handleChangeText}
           secureTextEntry={title === "Password" && !showPassword}
           keyboardType={keyboardStyles}
+          onEndEditing={
+            title === "Email"
+              ? () => validate(value)
+              : placeholder === "Konfirmasi Password"
+              ? () => confirmPassword(value)
+              : title === "Password"
+              ? () => validatePassword(value)
+              : () => validateField(value)
+          }
         />
 
         {title === "Password" && (
@@ -36,6 +92,7 @@ const CustomFormField = ({
           </TouchableOpacity>
         )}
       </View>
+      <Text className="color-red-500 text-sm">{validationMessageError}</Text>
     </View>
   );
 };

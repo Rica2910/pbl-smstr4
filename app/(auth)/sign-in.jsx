@@ -21,6 +21,7 @@ const SignIn = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailValidation, setEmailValidation] = useState(false);
 
   const submit = async () => {
     console.log("Welcome ." + form.email);
@@ -40,15 +41,20 @@ const SignIn = () => {
                 placeholder="Email"
                 value={form.email}
                 handleChangeText={(e) => setForm({ ...form, email: e })}
-                otherStyles="mt-7"
+                otherStyles="mt-3"
                 keyboardStyles="email-address"
+                regex={/^[^\s@]+@[^\s@]+\.[^\s@]+$/}
+                emailValidation={emailValidation}
+                setEmailValidation={setEmailValidation}
+                validationMessage="mohon masukkan email yang valid"
               />
               <CustomFormField
                 title="Password"
                 placeholder="Password"
                 value={form.password}
+                passwordValue={form.password}
                 handleChangeText={(e) => setForm({ ...form, password: e })}
-                otherStyles="mt-7"
+                otherStyles="mt-3"
               />
             </View>
 
@@ -57,7 +63,6 @@ const SignIn = () => {
               containerStyles={"mt-3 h-[50px]"}
               handlePress={submit}
               isLoading={isSubmitting}
-              
             />
           </View>
 
