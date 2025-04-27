@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import Navbar from "../../components/Navbar";
 import CustomButton from "../../components/CustomButton";
 import CustomFormField from "../../components/CustomFormField";
 import { createUser } from "../../lib/appwrite";

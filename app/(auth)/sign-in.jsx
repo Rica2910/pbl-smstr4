@@ -11,7 +11,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import "../../global.css";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
-import Navbar from "../../components/Navbar";
 import CustomFormField from "../../components/CustomFormField";
 
 const SignIn = () => {

@@ -8,18 +8,25 @@ import CustomProfilHeader from "../../components/CustomProfilHeader";
 import CustomFlatButton from "../../components/CustomFlatButton";
 import CustomGap from "../../components/CustomGap";
 import CustomTierProgress from "../../components/CustomTierProgress";
+import { router } from "expo-router";
 
 const Profil = () => {
   const dummyData = [
     {
       title: "Di proses",
       icon: icons.box,
-      handlePress: () => console.log("di proses"),
+      handlePress: () => {
+        router.push("diproses");
+        console.log("di proses");
+      }
     },
     {
       title: "Di jemput",
       icon: icons.truckStatus,
-      handlePress: () => console.log("di jemput"),
+      handlePress: () => {
+        router.push("dijemput")
+        console.log("di jemput")
+      }
     },
     {
       title: "Di timbang",

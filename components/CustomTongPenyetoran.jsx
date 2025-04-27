@@ -7,7 +7,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { images } from "../constants";
 
 const CustomTongCard = ({ data, containerStyles }) => {
-  const [checked, setChecked] = useState(false);
+
 
   return (
     <FlatList
@@ -18,13 +18,6 @@ const CustomTongCard = ({ data, containerStyles }) => {
           <View className="border border-secondary w-full px-3 ">
             <View className="mt-4 flex-row mb-4 items-center">
               <View className="justify-center flex-row">
-                <Pressable onPress={() => setChecked(!checked)}>
-                  <FontAwesome
-                    name={checked ? "check-square" : "square-o"}
-                    size={40}
-                    color={checked ? "#10b981" : "#ccc"}
-                  />
-                </Pressable>
                 <Image
                   source={images.botol}
                   className="w-12 h-12 ml-3"

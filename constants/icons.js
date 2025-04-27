@@ -19,6 +19,7 @@ import box from "../assets/icons/boxes.png";
 import neraca from "../assets/icons/budget-balance.png";
 import transfer from "../assets/icons/transfer.png";
 import poin from "../assets/icons/poin.png";
+import camera from "../assets/icons/camera.png";
 
 export default {
   play,
@@ -42,4 +43,5 @@ export default {
   truckStatus,
   transfer,
   poin,
+  camera,
 };

@@ -76,6 +76,7 @@ const Riwayat = () => {
         ListEmptyComponent={() => (
           <CustomEmptyState title="Tidak ada riwayat" />
         )}
+      
       />
       <StatusBar style="dark" backgroundColor="#fff" />
     </SafeAreaView>

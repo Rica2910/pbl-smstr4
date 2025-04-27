@@ -34,7 +34,7 @@ const CustomProfilHeader = ({ data }) => {
               <Image
                 source={icons.poin}
                 className="w-6 h-6"
-                resizeMode="contain"
+                resizeMode="contain"a
               />
             </View>
           </View>

@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import Navbar from "../../components/Navbar";
 import CustomButton from "../../components/CustomButton";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import CustomTongCard from "../../components/CustomTongCard";
+import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 
 const Tong = () => {
@@ -34,6 +34,7 @@ const Tong = () => {
   };
 
   const handleDeleteAll = () => {};
+ 
 
   return (
     <SafeAreaView className="h-full bg-primary">
@@ -43,9 +44,7 @@ const Tong = () => {
         numColumns={1}
         renderItem={({ item }) => (
           <CustomTongCard
-            title={item.title}
-            type={item.type}
-            poin={item.poin}
+            data = {dummyData}
             containerStyles="mt-5 px-4"
           />
         )}
@@ -53,7 +52,7 @@ const Tong = () => {
           <>
             <CustomButton
               title="Tong Sampah"
-              handlePress={() => router.push("/")}
+              handlePress={() => router.push("/penyetoran")}
               containerStyles={
                 " mt-7 py-[20px] w-[95%] self-center rounded-none"
               }
