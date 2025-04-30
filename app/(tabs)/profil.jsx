@@ -9,6 +9,8 @@ import CustomFlatButton from "../../components/CustomFlatButton";
 import CustomGap from "../../components/CustomGap";
 import CustomTierProgress from "../../components/CustomTierProgress";
 import { router } from "expo-router";
+import { currentActiveAccount } from "../../lib/appwrite";
+import { useAppwrite } from "../../lib/useAppwrite";
 
 const Profil = () => {
   const dummyData = [
@@ -16,31 +18,36 @@ const Profil = () => {
       title: "Di proses",
       icon: icons.box,
       handlePress: () => {
-        router.push("diproses");
+        router.push("/diproses");
         console.log("di proses");
-      }
+      },
     },
     {
       title: "Di jemput",
       icon: icons.truckStatus,
       handlePress: () => {
-        router.push("dijemput")
-        console.log("di jemput")
-      }
+        router.push("/dijemput");
+        console.log("di jemput");
+      },
     },
     {
       title: "Di timbang",
       icon: icons.neraca,
-      handlePress: () => console.log("di timbang"),
+      handlePress: () => {
+        router.push("/ditimbang");
+        console.log("di timbang");
+      },
     },
   ];
+
+  // const { data: activeAccount, refetch } = useAppwrite(currentActiveAccount);
 
   const dummyData3 = [
     {
       nama: "Aiman",
       tier: "Silver",
       poin: "60000",
-      penukaran: 50,
+      penukaran: 500,
       avatar: images.profile,
     },
   ];
@@ -69,7 +76,7 @@ const Profil = () => {
               <CustomFlatButton
                 title="Tukarkan poin"
                 icon={icons.transfer}
-                handlePress={() => console.log("penukaran koin berhasil")}
+                handlePress={() => console.log(currentActiveAccount())}
               />
             </View>
             <CustomGap />

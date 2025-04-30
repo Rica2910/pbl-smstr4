@@ -6,12 +6,15 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "../../global.css";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
 import CustomFormField from "../../components/CustomFormField";
+import { currentActiveAccount, signIn, signOut } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/globalProvider";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -21,10 +24,32 @@ const SignIn = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailValidation, setEmailValidation] = useState(false);
+  const { setUser, setIsLoggedIn } = useGlobalContext();
 
   const submit = async () => {
-    console.log("Welcome ." + form.email);
-    router.push("/home");
+    // if (!form.email || !form.password) {
+    //   Alert.alert("Error", "semua tabel wajib ter-isi terlebih dahulu");
+    // } else if (emailValidation === false) {
+    //   Alert.alert("Error", "Email tidak valid");
+    // } else {
+    //   setIsSubmitting(true);
+    //   try {
+    //     signIn(form.email, form.password);
+    //     const result = await currentActiveAccount();
+
+    //     setUser(result);
+    //     setIsLoggedIn(true);
+
+    //     router.replace("/home");
+    //   } catch (error) {
+    //     console.log(error);
+    //     throw new Error(error);
+    //   } finally {
+    //     setIsSubmitting(false);
+    //   }
+    // }
+
+    router.replace("/home");
   };
 
   return (
@@ -61,6 +86,12 @@ const SignIn = () => {
               title={"Login"}
               containerStyles={"mt-3 h-[50px]"}
               handlePress={submit}
+              isLoading={isSubmitting}
+            />
+            <CustomButton
+              title={"keluar"}
+              containerStyles={"mt-3 h-[50px]"}
+              handlePress={currentActiveAccount}
               isLoading={isSubmitting}
             />
           </View>

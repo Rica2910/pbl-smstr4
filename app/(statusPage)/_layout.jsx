@@ -5,11 +5,11 @@ import { StatusBar } from "expo-status-bar";
 import { icons } from "../../constants";
 import "../../global.css";
 
-const TabsIcon = ({  color, focused, name }) => {
+const TabsIcon = ({ color, focused, name }) => {
   return (
-    <View className="flex-1 items-center justify-end w-20 h-full pb-2">
+    <View className="flex-1 items-center justify-end w-20 h-full ">
       <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-lg`}
+        className={`${focused ? "font-psemibold" : "font-pregular"} text-m`}
         style={{ color: color }}
       >
         {name}
@@ -26,7 +26,7 @@ const TabsLayout = () => {
           tabBarShowLabel: false,
           tabBarActiveTintColor: "#2dcd6e",
           tabBarInactiveBackgroundColor: "#fff",
-          tabBarPosition : "top",
+          tabBarPosition: "top",
           tabBarStyle: {
             backgroundColor: "#fff",
             borderBottomWidth: 1,
@@ -42,11 +42,31 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => {
               return (
-                <TabsIcon
-                  name={"Proses"}
-                  color={color}
-                  focused={focused}
-                />
+                <TabsIcon name={"Proses"} color={color} focused={focused} />
+              );
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="dijemput"
+          options={{
+            title: "dijemput",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => {
+              return (
+                <TabsIcon name={"Jemput"} color={color} focused={focused} />
+              );
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="ditimbang"
+          options={{
+            title: "ditimbang",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => {
+              return (
+                <TabsIcon name={"Timbang"} color={color} focused={focused} />
               );
             },
           }}
@@ -58,11 +78,19 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => {
               return (
-                <TabsIcon
-                  name={"Selesai"}
-                  color={color}
-                  focused={focused}
-                />
+                <TabsIcon name={"Selesai"} color={color} focused={focused} />
+              );
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="batal"
+          options={{
+            title: "batal",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => {
+              return (
+                <TabsIcon name={"Batal"} color={color} focused={focused} />
               );
             },
           }}

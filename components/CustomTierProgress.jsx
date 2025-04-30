@@ -4,7 +4,14 @@ import ProgressBar from "react-native-progress/Bar";
 
 const CustomTierProgress = ({ data }) => {
   const [progress, setProgress] = useState(0);
-  const targetProgress = 500;
+  const targetProgress =
+    data.penukaran < 500
+      ? 500
+      : data.penukaran >= 500 && data.penukaran < 1000
+      ? 1000
+      : data.penukaran < 1500 && data.penukaran >= 1000
+      ? 1500
+      : data.penukaran;
 
   useEffect(() => {
     setProgress(data.penukaran / targetProgress);
@@ -13,36 +20,58 @@ const CustomTierProgress = ({ data }) => {
   return (
     <View
       className={`${
-        data.tier === "Gold"
+        data.penukaran >= 1500
+          ? "bg-black"
+          : data.penukaran < 1500 && data.penukaran >= 1000
           ? "bg-gold"
-          : data.tier === "Silver"
+          : data.penukaran < 1000 && data.penukaran >= 500
           ? "bg-silver"
           : "bg-bronze"
       } h-60 px-4 justify-center`}
     >
-      <Text className="font-pmedium text-3xl mb-3">{data.tier}</Text>
+      <Text
+        className={`font-pmedium text-3xl mb-3 ${
+          data.penukaran >= 1500 ? "text-white" : ""
+        }`}
+      >
+        {data.penukaran >= 1500
+          ? "Black"
+          : data.penukaran < 1500 && data.penukaran >= 1000
+          ? "Gold"
+          : data.penukaran < 1000 && data.penukaran >= 500
+          ? "Silver"
+          : "Bronze"}
+      </Text>
       <View className="rounded-xl bg-primary h-30 p-4 w-full">
         <Text className="font-pmedium text-secondary">
           {targetProgress - data.penukaran}{" "}
           <Text className="text-black">Penukaran lagi</Text>
         </Text>
         <View className="flex-row items-center mb-3">
-          <ProgressBar progress={progress} width={280} color="#2dcd6e" />
+          <ProgressBar progress={progress} width={150} color="#2dcd6e" />
           <View
             className={`rounded-lg ${
-              data.tier === "Bronze"
+              data.penukaran < 500
                 ? "bg-silver"
-                : data.tier === "Silver"
+                : data.penukaran >= 500 && data.penukaran < 1000
                 ? "bg-gold"
-                : "bg-gold"
+                : data.penukaran >= 1000 && data.penukaran < 1500
+                ? "bg-black"
+                : "bg-black"
             }  justify-center items-center w-20 h-6 ml-2`}
           >
-            <Text className="font-pmedium text-sm">
-              {data.tier === "Bronze"
+            <Text
+              className={`font-pmedium text-sm ${
+                data.penukaran >= 1000 ? "text-white" : ""
+              }`}
+            >
+              {data.penukaran < 500
                 ? "Silver"
-                : data.tier === "Silver"
+                : data.penukaran >= 500 && data.penukaran < 1000
                 ? "Gold"
-                : "Gold"}
+                : data.penukaran >= 1000 && data.penukaran < 1500
+                ? "Black"
+                : "Black"}
             </Text>
           </View>
         </View>

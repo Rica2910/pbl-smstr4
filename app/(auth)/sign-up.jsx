@@ -13,6 +13,7 @@ import { router } from "expo-router";
 import CustomButton from "../../components/CustomButton";
 import CustomFormField from "../../components/CustomFormField";
 import { createUser } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/globalProvider";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -27,6 +28,7 @@ const SignUp = () => {
   const [emailValidation, setEmailValidation] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setUser, setIsLoggedIn } = useGlobalContext();
 
   const register = async () => {
     if (
@@ -48,7 +50,7 @@ const SignUp = () => {
     } else {
       setIsSubmitting(true);
       try {
-        await createUser({
+        const result = await createUser({
           email: form.email,
           nama: form.nama,
           bank: form.bank,
@@ -56,6 +58,10 @@ const SignUp = () => {
           nomorRekening: form.nomorRekening,
           password: form.password,
         });
+
+        setUser(result);
+        setIsLoggedIn(true);
+
         router.replace("/home");
       } catch (error) {
         console.log(error);
