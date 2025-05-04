@@ -26,7 +26,8 @@ const RootLayout = () => {
   if (!fontsLoaded && !error) return null;
 
   return (
-    <GlobalProvider>
+    // <GlobalProvider>
+    // </GlobalProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
@@ -34,7 +35,6 @@ const RootLayout = () => {
         <Stack.Screen name="(setor)" options={{ headerShown: false }} />
         <Stack.Screen name="(statusPage)" options={{ headerShown: false }} />
       </Stack>
-    </GlobalProvider>
   );
 };
 

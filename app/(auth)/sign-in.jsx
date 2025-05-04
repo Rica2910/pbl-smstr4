@@ -14,7 +14,7 @@ import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
 import CustomFormField from "../../components/CustomFormField";
 import { currentActiveAccount, signIn, signOut } from "../../lib/appwrite";
-import { useGlobalContext } from "../../context/globalProvider";
+// import { useGlobalContext } from "../../context/globalProvider";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -24,7 +24,7 @@ const SignIn = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailValidation, setEmailValidation] = useState(false);
-  const { setUser, setIsLoggedIn } = useGlobalContext();
+  // const { setUser, setIsLoggedIn } = useGlobalContext();
 
   const submit = async () => {
     // if (!form.email || !form.password) {
