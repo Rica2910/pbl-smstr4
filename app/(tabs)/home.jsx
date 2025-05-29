@@ -16,11 +16,9 @@ const Home = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetch();
+    await refetch(); 
     setRefreshing(false);
   };
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const dummyData = [
     "Semua",
@@ -29,32 +27,41 @@ const Home = () => {
     "Kertas",
     "Logam",
     "Minyak",
-    "Plastik" ?? [],
+    "Plastik",
   ];
 
-  const dummyData2 = ["Tv", "Kulkas", "Monitor"];
+  const dummyData2 = [
+  { id: "1", title: "Tv", type: "Elektronik", poin: 6500, unitType: "Unit", image: require("../../assets/images/tv.png")  },
+  { id: "2", title: "Kulkas", type: "Elektronik", poin: "12000", unitType: "Unit", image: require("../../assets/images/kulkas.png") },
+  { id: "3", title: "Monitor", type: "Elektronik", poin: "7000", unitType: "Unit", image: require("../../assets/images/monitor.png") },
+];
+
 
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={dummyData2}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.id}
         numColumns={2}
         renderItem={({ item }) => (
           <CustomItemCard
-            title={item}
-            poin="6500"
-            type="Elektronik"
-            unitType="Unit"
+            source={item.image}
+            title={item.title}
+            poin={item.poin}
+            type={item.type}
+            unitType={item.unitType}
             containerStyles="mt-5"
           />
         )}
         ListHeaderComponent={() => (
           <View className="px-4">
             <View className="mt-5 h-20 justify-center">
-              <Text className="text-3xl font-pmedium">
-                Selamat datang, <Text className="text-secondary">Aiman</Text>
-              </Text>
+              <View className="flex-row">
+                  <Text className="text-3xl font-pmedium">Selamat datang, </Text>
+                  <Text className="text-3xl font-pmedium text-secondary">Aiman</Text>
+              </View>
+
+
             </View>
             <CustomSearchField
               title="Search"

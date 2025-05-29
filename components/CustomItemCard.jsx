@@ -3,24 +3,21 @@ import React from "react";
 import "../global.css";
 import CustomButton from "./CustomButton";
 import { images } from "../constants";
+import { addSampahToTong } from "../lib/action";
 
-const CustomItemCard = ({
-  source,
-  containerStyles,
-  title,
-  type,
-  poin,
-  unitType,
-}) => {
-  const addToTong = async (title) => {
-    console.log(title + " berhasil ditambahkan kedalam tong");
+const CustomItemCard = ({ source, containerStyles, title, type, poin, unitType, imagesampah }) => {
+  const addToTong = async () => {
+    try {
+      await addSampahToTong({ title, type, poin, unitType, imagesampah: "tv" });
+      console.log(`${title} berhasil ditambahkan ke tong`);
+    } catch (error) {
+      console.error("Gagal menambahkan ke tong:", error);
+    }
   };
 
   return (
-    <View
-      className={`w-60 h-80 justify-center items-center ${containerStyles}`}
-    >
-      <Image source={images.cards} className="w-40 h-40" resizeMode="cover" />
+    <View className={`w-60 h-80 justify-center items-center ${containerStyles}`}>
+      <Image source={source} className="w-40 h-40" resizeMode="cover" />
       <Text className="font-psemibold text-xl">{title}</Text>
       <Text className="text-gray-100">{type}</Text>
       <Text>
@@ -29,7 +26,7 @@ const CustomItemCard = ({
 
       <CustomButton
         title="Tambahkan"
-        handlePress={() => addToTong(title)}
+        handlePress={addToTong}
         containerStyles="mt-5"
       />
     </View>

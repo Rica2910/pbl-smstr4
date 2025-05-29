@@ -1,61 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
-  ScrollView,
   TouchableOpacity,
-  Pressable,
   FlatList,
+  RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import CustomButton from "../../components/CustomButton";
-import { Feather, FontAwesome } from "@expo/vector-icons";
 import CustomTongCard from "../../components/CustomTongCard";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
+import { getSampahTongItems } from "../../lib/action";
 
 const Tong = () => {
-  const dummyData = [
-    {
-      id: "1",
-      title: "Botol Plastik",
-      type: "non-organik plastik",
-      poin: "Points: 1300",
-    },
-  ];
+  const [tongItems, setTongItems] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+
+  const fetchTongItems = async () => {
+    const items = await getSampahTongItems();
+    setTongItems(items);
+  };
+
+  useEffect(() => {
+    fetchTongItems();
+  }, []);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetch();
+    await fetchTongItems();
     setRefreshing(false);
   };
 
-  const handleDeleteAll = () => {};
- 
+  const handleDeleteAll = () => {
+    
+  };
 
   return (
     <SafeAreaView className="h-full bg-primary">
       <FlatList
-        data={dummyData}
-        keyExtractor={(item) => item.id}
+        data={tongItems}
+        keyExtractor={(item) => item.$id}
         numColumns={1}
         renderItem={({ item }) => (
-          <CustomTongCard
-            data = {dummyData}
-            containerStyles="mt-5 px-4"
-          />
+          <CustomTongCard data={[item]} containerStyles="mt-5 px-4" />
         )}
         ListHeaderComponent={() => (
           <>
             <CustomButton
               title="Tong Sampah"
               handlePress={() => router.push("/penyetoran")}
-              containerStyles={
-                " mt-7 py-[20px] w-[95%] self-center rounded-none"
-              }
+              containerStyles=" mt-7 py-[20px] w-[95%] self-center rounded-none"
             />
             <TouchableOpacity onPress={handleDeleteAll} className=" mt-3">
               <Text className="text-red-500 px-4 text-lg">Hapus Semua</Text>
@@ -68,6 +64,9 @@ const Tong = () => {
             subtitle="Tambahkan sampah agar tong terisi"
           />
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
       <StatusBar style="dark" backgroundColor="#fff" />
     </SafeAreaView>
