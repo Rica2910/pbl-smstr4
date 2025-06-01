@@ -34,7 +34,7 @@ const Tong = () => {
   };
 
   const handleDeleteAll = () => {
-    
+  
   };
 
   return (
@@ -44,13 +44,18 @@ const Tong = () => {
         keyExtractor={(item) => item.$id}
         numColumns={1}
         renderItem={({ item }) => (
-          <CustomTongCard data={[item]} containerStyles="mt-5 px-4" />
+          <CustomTongCard data={item} containerStyles="mt-5 px-4" />
         )}
         ListHeaderComponent={() => (
           <>
             <CustomButton
               title="Tong Sampah"
-              handlePress={() => router.push("/penyetoran")}
+              handlePress={() =>
+                router.push({
+                  pathname: "/penyetoran",
+                  params: { items: JSON.stringify(tongItems) },
+                })
+              }
               containerStyles=" mt-7 py-[20px] w-[95%] self-center rounded-none"
             />
             <TouchableOpacity onPress={handleDeleteAll} className=" mt-3">

@@ -2,19 +2,17 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import "../global.css";
 import CustomButton from "./CustomButton";
-import { images } from "../constants";
-import { addSampahToTong } from "../lib/action";
 
-const CustomItemCard = ({ source, containerStyles, title, type, poin, unitType, imagesampah }) => {
-  const addToTong = async () => {
-    try {
-      await addSampahToTong({ title, type, poin, unitType, imagesampah: "tv" });
-      console.log(`${title} berhasil ditambahkan ke tong`);
-    } catch (error) {
-      console.error("Gagal menambahkan ke tong:", error);
-    }
-  };
-
+const CustomItemCard = ({
+  source,
+  containerStyles,
+  title,
+  type,
+  poin,
+  unitType,
+  onAdd,
+  loading,
+}) => {
   return (
     <View className={`w-60 h-80 justify-center items-center ${containerStyles}`}>
       <Image source={source} className="w-40 h-40" resizeMode="cover" />
@@ -25,9 +23,10 @@ const CustomItemCard = ({ source, containerStyles, title, type, poin, unitType, 
       </Text>
 
       <CustomButton
-        title="Tambahkan"
-        handlePress={addToTong}
+        title={loading ? "Menambahkan..." : "Tambahkan"}
+        handlePress={onAdd}
         containerStyles="mt-5"
+        disabled={loading}
       />
     </View>
   );
