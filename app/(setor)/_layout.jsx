@@ -7,6 +7,7 @@ const SetorLayout = () => {
     <>
       <Stack>
         <Stack.Screen name="penyetoran" options={{ headerShown: false }} />
+        <Stack.Screen name="validasiPenyetoran" options={{ headerShown: false }} />
       </Stack>
 
       <StatusBar style="dark" backgroundColor="#fff" />

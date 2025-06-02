@@ -26,15 +26,16 @@ const RootLayout = () => {
   if (!fontsLoaded && !error) return null;
 
   return (
-    // <GlobalProvider>
-    // </GlobalProvider>
+    <GlobalProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabsAdmin)" options={{ headerShown: false }} />
         <Stack.Screen name="(setor)" options={{ headerShown: false }} />
         <Stack.Screen name="(statusPage)" options={{ headerShown: false }} />
       </Stack>
+    </GlobalProvider>
   );
 };
 
