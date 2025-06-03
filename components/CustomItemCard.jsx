@@ -4,6 +4,7 @@ import "../global.css";
 import CustomButton from "./CustomButton";
 
 const CustomItemCard = ({
+  item,
   source,
   containerStyles,
   title,
@@ -23,11 +24,11 @@ const CustomItemCard = ({
       </Text>
 
       <CustomButton
-        title={loading ? "Menambahkan..." : "Tambahkan"}
-        handlePress={onAdd}
-        containerStyles="mt-5"
-        disabled={loading}
-      />
+  title={loading ? "Menambahkan..." : "Tambahkan"}
+  handlePress={() => onAdd(item)} // ✅ aman
+  containerStyles="mt-5"
+  disabled={loading}
+/>
     </View>
   );
 };

@@ -75,6 +75,23 @@ const TabsLayout = () => {
           }}
         />
         <Tabs.Screen
+          name="campaign"
+          options={{
+            title: "campaign",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => {
+              return (
+                <TabsIcon
+                  name={"campaign"}
+                  color={color}
+                  icon={icons.trashcan}
+                  focused={focused}
+                />
+              );
+            },
+          }}
+        />
+        <Tabs.Screen
           name="riwayat"
           options={{
             title: "Riwayat",

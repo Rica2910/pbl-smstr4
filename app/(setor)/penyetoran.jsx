@@ -100,7 +100,7 @@ const Penyetoran = () => {
               setSelectedOption={setSelectedOption}
             />
             <CustomButton
-              title="Cari"
+              title="setor"
               handlePress={() => router.push("/")}
               containerStyles="mb-5 mt-3 w-[93%] self-center h-[45px]"
             />

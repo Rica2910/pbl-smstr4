@@ -10,7 +10,7 @@ const CustomProfilHeader = ({ data }) => {
       renderItem={({ item }) => (
         <View className="flex-row items-center mt-10">
           <Image
-            source={{ uri: item.avatar }}
+            source={ item.avatar }
             className="w-20 h-20 rounded-full"
           />
           <View className="pl-4">

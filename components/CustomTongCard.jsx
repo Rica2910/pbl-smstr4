@@ -1,5 +1,5 @@
 import { View, Text, Image, Pressable } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { router } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
@@ -14,8 +14,7 @@ const getImageViewUrl = (bucketId, fileId, projectId) => {
   return `https://cloud.appwrite.io/v1/storage/buckets/${bucketId}/files/${fileId}/view?project=${projectId}`;
 };
 
-const CustomTongCard = ({ data, containerStyles }) => {
-  const [checked, setChecked] = useState(false);
+const CustomTongCard = ({ data, containerStyles, isSelected, toggleSelect }) => {
   const imageUrl = getImageViewUrl(config.storageId, data.imagesampah, config.projectId);
 
   return (
@@ -23,13 +22,14 @@ const CustomTongCard = ({ data, containerStyles }) => {
       <View className="border border-secondary w-full px-3">
         <View className="mt-4 flex-row mb-4 items-center">
           <View className="justify-center flex-row">
-            <Pressable onPress={() => setChecked(!checked)}>
+            <Pressable onPress={toggleSelect}>
               <FontAwesome
-                name={checked ? "check-square" : "square-o"}
+                name={isSelected ? "check-square" : "square-o"}
                 size={40}
-                color={checked ? "#10b981" : "#ccc"}
+                color={isSelected ? "#10b981" : "#ccc"}
               />
             </Pressable>
+
             {imageUrl ? (
               <Image
                 source={{ uri: imageUrl }}
@@ -42,11 +42,13 @@ const CustomTongCard = ({ data, containerStyles }) => {
               </View>
             )}
           </View>
+
           <View className="pl-4">
             <Text className="font-bold">{data.title}</Text>
             <Text className="text-sm">{data.type}</Text>
             <Text className="text-red-500">{data.poin}</Text>
           </View>
+
           <View className="ml-auto justify-center">
             <CustomButton
               title="Detail"
