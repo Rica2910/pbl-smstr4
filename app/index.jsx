@@ -3,14 +3,20 @@ import { Text, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "../global.css";
 import CustomButton from "../components/CustomButton";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
+import { useGlobalContext } from "../context/globalProvider";
 
 export default function App() {
+
+  const {isLoggedIn, isLoading} = useGlobalContext();
+
+  if(isLoggedIn && !isLoading) return <Redirect href="/home"/>
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height:"100%" }}>
         <View className="items-center justify-center w-full h-full px-4">
-          <Text className="color-black font-bold text-3xl">
+          <Text className="text-3xl color-black font-bold">
             Membantu pengendalian sampah bersama {' '}
             <Text className="color-secondary">Re-App</Text>
           </Text>

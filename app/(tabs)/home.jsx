@@ -7,6 +7,7 @@ import CustomItemCard from "../../components/CustomItemCard";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 import { db, ID, config } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/globalProvider";
 
 
 const bucketId = "6805fcb3001db0d06f70";
@@ -21,6 +22,7 @@ const Home = () => {
   const [search, setSearch] = useState({ search: "" });
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { user } = useGlobalContext();
 
   const dummyData = ["Semua", "Elektronik", "Kaca", "Kertas", "Logam", "Minyak", "Plastik"];
 
@@ -110,7 +112,7 @@ const Home = () => {
             <View className="mt-5 h-20 justify-center">
               <View className="flex-row">
                 <Text className="text-3xl font-pmedium">Selamat datang, </Text>
-                <Text className="text-3xl font-pmedium text-secondary">Aiman</Text>
+                <Text className="text-3xl font-pmedium text-secondary">{user.nama}</Text>
               </View>
             </View>
             <CustomSearchField

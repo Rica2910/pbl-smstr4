@@ -29,7 +29,6 @@ const CustomFlatButton = ({
         <Text className={`text-black font-pmedium ${textStyles}`}>{title}</Text>
       </View>
       <View className="flex-row items-center">
-        <Text className="font-pmedium text-sm text-black">60000 </Text>
         <Image source={icons.poin} className="w-6 h-6" resizeMode="contain" />
         <Text>{" >"}</Text>
       </View>

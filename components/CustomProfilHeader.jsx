@@ -10,7 +10,6 @@ const CustomProfilHeader = ({ data }) => {
       renderItem={({ item }) => (
         <View className="flex-row items-center mt-10">
           <Image
-            source={ item.avatar }
             className="w-20 h-20 rounded-full"
           />
           <View className="pl-4">
@@ -46,7 +45,7 @@ const CustomProfilHeader = ({ data }) => {
             </View>
             <View className="flex-row items-center">
               <Text className="font-pmedium text-sm text-primary">
-                {item.poin}{" "}
+                {item.coin}{" "}
               </Text>
               <Image
                 source={icons.poin}

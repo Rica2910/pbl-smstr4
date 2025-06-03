@@ -28,7 +28,7 @@ const SignUp = () => {
   const [emailValidation, setEmailValidation] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const { setUser, setIsLoggedIn } = useGlobalContext();
+  const { setUser, setIsLoggedIn } = useGlobalContext();
 
   const register = async () => {
     if (
@@ -59,8 +59,8 @@ const SignUp = () => {
           password: form.password,
         });
 
-        // setUser(result);
-        // setIsLoggedIn(true);
+        setUser(result);
+        setIsLoggedIn(true);
 
         router.replace("/home");
       } catch (error) {
