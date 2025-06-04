@@ -8,6 +8,7 @@ import CustomTongPenyetoran from "../../components/CustomTongPenyetoran";
 import { icons } from "../../constants";
 import { Picker } from "@react-native-picker/picker";
 import { router, useLocalSearchParams } from "expo-router";
+import { handleSetor } from "../../lib/Penyetoranaction"; 
 
 const DropdownForm = ({ selectedOption, setSelectedOption }) => {
   const tanggalPenjemputan = [
@@ -67,7 +68,7 @@ const Penyetoran = () => {
         ListHeaderComponent={() => (
           <View className="flex-row mb-5 justify-between mt-7">
             <Text className="font-bold text-xl">Alamat Penjemputan</Text>
-            <TouchableOpacity onPress={() => router.push("/sign-up")}>
+            <TouchableOpacity onPress={() => router.push("/alamat")}>
               <Text className="text-secondary">Tambah Alamat</Text>
             </TouchableOpacity>
           </View>
@@ -101,7 +102,7 @@ const Penyetoran = () => {
             />
             <CustomButton
               title="setor"
-              handlePress={() => router.push("/")}
+                handlePress={() => handleSetor(selectedOption, parsedItems)}
               containerStyles="mb-5 mt-3 w-[93%] self-center h-[45px]"
             />
           </>

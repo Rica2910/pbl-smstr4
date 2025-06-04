@@ -25,7 +25,7 @@ const CustomItemCard = ({
 
       <CustomButton
   title={loading ? "Menambahkan..." : "Tambahkan"}
-  handlePress={() => onAdd(item)} // ✅ aman
+  handlePress={() => onAdd(item)} 
   containerStyles="mt-5"
   disabled={loading}
 />

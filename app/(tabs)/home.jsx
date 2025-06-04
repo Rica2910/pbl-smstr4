@@ -112,7 +112,9 @@ const Home = () => {
             <View className="mt-5 h-20 justify-center">
               <View className="flex-row">
                 <Text className="text-3xl font-pmedium">Selamat datang, </Text>
-                <Text className="text-3xl font-pmedium text-secondary">{user.nama}</Text>
+                <Text className="text-3xl font-pmedium text-secondary">
+                  {user ? user.nama : "Pengguna"}
+                </Text>
               </View>
             </View>
             <CustomSearchField
