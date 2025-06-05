@@ -24,7 +24,7 @@ const SignIn = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailValidation, setEmailValidation] = useState(false);
-  const { setUser, setIsLoggedIn} = useGlobalContext();
+  const { setUser, setIsLoggedIn, user } = useGlobalContext();
 
   const submit = async () => {
     if (!form.email || !form.password) {
@@ -40,7 +40,11 @@ const SignIn = () => {
         setUser(result);
         setIsLoggedIn(true);
 
-        router.replace("/home");
+        if (user.role === "Pengelola Sampah") {
+          router.replace("/homeAdmin");
+        } else {
+          router.replace("/home");
+        }
       } catch (error) {
         console.log(error);
         throw new Error(error);
@@ -48,7 +52,6 @@ const SignIn = () => {
         setIsSubmitting(false);
       }
     }
-
   };
 
   return (

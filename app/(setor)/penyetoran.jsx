@@ -8,7 +8,7 @@ import CustomTongPenyetoran from "../../components/CustomTongPenyetoran";
 import { icons } from "../../constants";
 import { Picker } from "@react-native-picker/picker";
 import { router, useLocalSearchParams } from "expo-router";
-import { handleSetor } from "../../lib/Penyetoranaction"; 
+import { handleSetor } from "../../lib/Penyetoranaction";
 
 const DropdownForm = ({ selectedOption, setSelectedOption }) => {
   const tanggalPenjemputan = [
@@ -29,7 +29,8 @@ const DropdownForm = ({ selectedOption, setSelectedOption }) => {
         ))}
       </Picker>
       <Text>
-        Jadwal penjemputan hanya akan dilakukan pada pukul 15:00 sesuai dengan jadwal yang anda pilih
+        Jadwal penjemputan hanya akan dilakukan pada pukul 15:00 sesuai dengan
+        jadwal yang anda pilih
       </Text>
     </View>
   );
@@ -102,7 +103,7 @@ const Penyetoran = () => {
             />
             <CustomButton
               title="setor"
-                handlePress={() => handleSetor(selectedOption, parsedItems)}
+              handlePress={() => handleSetor(selectedOption, parsedItems)}
               containerStyles="mb-5 mt-3 w-[93%] self-center h-[45px]"
             />
           </>

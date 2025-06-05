@@ -11,7 +11,7 @@ const CustomProfilHeader = ({ data }) => {
         <View className="flex-row items-center mt-10">
           <Image
             className="w-20 h-20 rounded-full"
-            source = {item.avatar}
+            source={{ uri: item.avatar_url }}
           />
           <View className="pl-4">
             <View className="flex-row items-center">

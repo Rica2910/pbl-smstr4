@@ -9,10 +9,8 @@ import { StatusBar } from "expo-status-bar";
 import { db, ID, config } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/globalProvider";
 
-
 const bucketId = "6805fcb3001db0d06f70";
 const projectId = "6805f3350031a662e30f";
-
 
 const getImageUrl = (fileId) => {
   return `https://cloud.appwrite.io/v1/storage/buckets/${bucketId}/files/${fileId}/view?project=${projectId}`;
@@ -22,9 +20,18 @@ const Home = () => {
   const [search, setSearch] = useState({ search: "" });
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filterStatus, setFilterStatus] = useState("Semua");
   const { user } = useGlobalContext();
 
-  const dummyData = ["Semua", "Elektronik", "Kaca", "Kertas", "Logam", "Minyak", "Plastik"];
+  const dummyData = [
+    "Semua",
+    "Elektronik",
+    "Kaca",
+    "Kertas",
+    "Logam",
+    "Minyak",
+    "Plastik",
+  ];
 
   const dummyData2 = [
     {
@@ -33,8 +40,8 @@ const Home = () => {
       type: "Elektronik",
       poin: 6500,
       unitType: "Unit",
-      image: { uri: getImageUrl("683b22be0004d3e5c06d") }, 
-      imagesampah: "683b22be0004d3e5c06d"
+      image: { uri: getImageUrl("683b22be0004d3e5c06d") },
+      imagesampah: "683b22be0004d3e5c06d",
     },
     {
       id: "2",
@@ -43,7 +50,7 @@ const Home = () => {
       poin: 12000,
       unitType: "Unit",
       image: { uri: getImageUrl("683b1fab000d2ac6e0ea") },
-        imagesampah: "683b1fab000d2ac6e0ea",
+      imagesampah: "683b1fab000d2ac6e0ea",
     },
     {
       id: "3",
@@ -52,7 +59,7 @@ const Home = () => {
       poin: 7000,
       unitType: "Unit",
       image: { uri: getImageUrl("683c32c0002b7ccc11c9") },
-      imagesampah: "683c32c0002b7ccc11c9"
+      imagesampah: "683c32c0002b7ccc11c9",
     },
   ];
 
@@ -123,7 +130,12 @@ const Home = () => {
               value={search.search}
               handleChangeText={(e) => setSearch({ ...search, search: e })}
             />
-            <CustomTypeButton data={dummyData} containerStyles="mt-2" />
+            <CustomTypeButton
+              data={dummyData}
+              filterStatus={filterStatus}
+              setFilterStatus={setFilterStatus}
+              containerStyles="mt-2"
+            />
           </View>
         )}
         ListEmptyComponent={() => (
@@ -132,7 +144,9 @@ const Home = () => {
             subtitle="Silahkan hubungi admin agar jenis sampah tersebut ditambahkan"
           />
         )}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
       <StatusBar style="dark" backgroundColor="#fff" />
     </SafeAreaView>
