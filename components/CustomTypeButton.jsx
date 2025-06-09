@@ -17,7 +17,7 @@ const CustomTypeButton = ({
   return (
     <FlatList
       data={data}
-      keyExtractor={(item) => item.$id}
+      keyExtractor={(item) => item}
       renderItem={({ item }) => (
         <View className="pr-2">
           <TouchableOpacity
