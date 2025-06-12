@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import  { useState,  } from "react";
 import { ScrollView, View, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
 import CustomButton from "../../components/CustomButton";
 import CustomFormField from "../../components/CustomFormField";
-import { db, config } from "../../lib/appwrite";
-import { ID } from "react-native-appwrite";
+import tambahalamat from "../../lib/tambahalamat"; 
+
+  
+
+
+
+
 
 const Alamat = () => {
   const [form, setForm] = useState({
@@ -18,45 +22,9 @@ const Alamat = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const tambahalamat = async () => {
-    setIsSubmitting(true);
-    try {
-      if (
-        !form.nama_pengirim ||
-        !form.no_hp ||
-        !form.tempat_diterima ||
-        !form.kecamatan ||
-        !form.alamat_lengkap
-      ) {
-        alert("Harap lengkapi semua data alamat!");
-        setIsSubmitting(false);
-        return;
-      }
 
-      await db.createDocument(
-        config.databaseId,
-        config.alamatCollectionId,
-        ID.unique(),
-        {
-          nama_pengirim: form.nama_pengirim,
-          no_hp: form.no_hp,
-          tempat_diterima: form.tempat_diterima,
-          kecamatan: form.kecamatan,
-          alamat_lengkap: form.alamat_lengkap,
-        }
-      );
 
-      alert("Alamat berhasil disimpan!");
-      router.push("/");
-
-    } catch (error) {
-      console.error("Gagal menyimpan alamat:", error);
-      alert("Terjadi kesalahan saat menyimpan alamat.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
+  
   return (
     <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -121,7 +89,7 @@ const Alamat = () => {
 
               <CustomButton
                 title="Tambahkan"
-                handlePress={tambahalamat}
+                 handlePress={() => tambahalamat(form, setIsSubmitting)}
                 containerStyles={"mt-3 h-[55px]"}
                 isLoading={isSubmitting}
               />

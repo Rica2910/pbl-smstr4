@@ -22,7 +22,7 @@ const CustomSearchField = ({
         <TextInput
           className="flex-1 text-black font-psemibold text-base "
           value={value}
-          placeholder="Cari sampah untuk di serahkan"
+          placeholder="Cari sampah untuk di jemput"
           onChangeText={handleChangeText}
           secureTextEntry={title === "Password" && !showPassword}
           keyboardType={keyboardStyles}

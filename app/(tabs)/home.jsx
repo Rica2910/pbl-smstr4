@@ -1,5 +1,5 @@
 import { View, Text, FlatList, RefreshControl, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomSearchField from "../../components/CustomSearchField";
 import CustomTypeButton from "../../components/CustomTypeButton";
@@ -21,6 +21,7 @@ const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState("Semua");
+  const [items, setItems] = useState([]);
   const { user } = useGlobalContext();
 
   const dummyData = [
@@ -33,45 +34,46 @@ const Home = () => {
     "Plastik",
   ];
 
-  const dummyData2 = [
-    {
-      id: "1",
-      title: "Tv",
-      type: "Elektronik",
-      poin: 6500,
-      unitType: "Unit",
-      image: { uri: getImageUrl("683b22be0004d3e5c06d") },
-      imagesampah: "683b22be0004d3e5c06d",
-    },
-    {
-      id: "2",
-      title: "Kulkas",
-      type: "Elektronik",
-      poin: 12000,
-      unitType: "Unit",
-      image: { uri: getImageUrl("683b1fab000d2ac6e0ea") },
-      imagesampah: "683b1fab000d2ac6e0ea",
-    },
-    {
-      id: "3",
-      title: "Monitor",
-      type: "Elektronik",
-      poin: 7000,
-      unitType: "Unit",
-      image: { uri: getImageUrl("683c32c0002b7ccc11c9") },
-      imagesampah: "683c32c0002b7ccc11c9",
-    },
-  ];
+  const fetchItems = async () => {
+    try {
+      setLoading(true);
+      const response = await db.listDocuments(
+        config.databaseId,
+        config.sampahCollectionId 
+      );
+
+      const fetchedItems = response.documents.map((doc) => ({
+        id: doc.$id,
+        title: doc.title,
+        type: doc.type,
+        poin: doc.poin,
+        unitType: doc.unitType,
+        image: { uri: getImageUrl(doc.imagesampah) },
+        imagesampah: doc.imagesampah,
+      }));
+
+      setItems(fetchedItems);
+    } catch (error) {
+      console.error("Gagal mengambil data:", error);
+      Alert.alert("Error", "Gagal memuat data dari server.");
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    setRefreshing(false);
+    await fetchItems();
   };
 
   const handleAddToTong = async (item) => {
     try {
       setLoading(true);
-      const userId = "current-user-id";
 
       await db.createDocument(
         config.databaseId,
@@ -96,10 +98,15 @@ const Home = () => {
     }
   };
 
+  const filteredItems =
+    filterStatus === "Semua"
+      ? items
+      : items.filter((item) => item.type === filterStatus);
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
-        data={dummyData2}
+        data={filteredItems}
         keyExtractor={(item) => item.id}
         numColumns={2}
         renderItem={({ item }) => (
@@ -128,7 +135,9 @@ const Home = () => {
               title="Search"
               placeholder="Cari sampah yang ingin ditambahkan"
               value={search.search}
-              handleChangeText={(e) => setSearch({ ...search, search: e })}
+              handleChangeText={(e) =>
+                setSearch({ ...search, search: e })
+              }
             />
             <CustomTypeButton
               data={dummyData}

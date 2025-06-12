@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
-const CustomFormCard = ({
+const CustomkurirCard = ({
   data: {
     $id,
     status,
@@ -25,7 +25,7 @@ const CustomFormCard = ({
             : status === "Disetujui"
             ? "bg-secondary"
             : "bg-red-500"
-        } w-[100%]  rounded-2xl border border-secondary overflow-hidden mt-3 ${
+        } w-[100%] rounded-2xl border border-secondary overflow-hidden mt-3  ${
           isLoading ? "opacity-50" : ""
         } ${containerStyles || ""}`}
         disabled={isLoading}
@@ -45,4 +45,4 @@ const CustomFormCard = ({
   );
 };
 
-export default CustomFormCard;
+export default CustomkurirCard;

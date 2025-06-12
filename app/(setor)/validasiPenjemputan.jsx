@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image, SafeAreaView, Alert } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { updateDocumentPenyetoran } from "../../lib/Penyetoranaction";
 import {fetchDataPenyetoran} from "../../lib/appwrite";
 
-const ValidasiPenyetoran = () => {
+const ValidasiPenjemputan = () => {
   const bucketId = "6805fcb3001db0d06f70";
   const projectId = "6805f3350031a662e30f";
   const { id } = useLocalSearchParams();
@@ -31,9 +32,9 @@ const ValidasiPenyetoran = () => {
     try {
       setLoading(true);
       await updateDocumentPenyetoran(id, {
-        status: "Disetujui",
+        status: "Disetujui", 
       });
-      Alert.alert("Sukses", "Kurir akan menjemput");
+      Alert.alert("Sukses", "Status berhasil diubah menjadi Disetujui");
       await getData();
     } catch (error) {
       console.error("Gagal update status:", error);
@@ -57,7 +58,7 @@ const ValidasiPenyetoran = () => {
         {data.imagesampah && (
           <Image
             source={{ uri: getImageUrl(data.imagesampah) }}
-            style={{ width: "100%", height: 160, borderRadius: 10, marginTop: 20 }}
+            style={{ width: "100%", height: 150, borderRadius: 10, marginTop: 20 }}
             resizeMode="cover"
           />
         )}
@@ -85,10 +86,10 @@ const ValidasiPenyetoran = () => {
         <TouchableOpacity
           onPress={handleKirimKurir}
           disabled={loading}
-          className="bg-green-600 py-3 rounded-xl mx-8 mb-4"
+          className="bg-green-600 py-3 rounded-xl mx-8 mb-5 "
         >
           <Text className="text-white text-center font-bold text-lg">
-            {loading ? "Mengirim..." : "Kirim Kurir"}
+            {loading ? "Mengirim..." : "Jemput"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -96,4 +97,4 @@ const ValidasiPenyetoran = () => {
   );
 };
 
-export default ValidasiPenyetoran;
+export default ValidasiPenjemputan;

@@ -27,30 +27,46 @@ const SignIn = () => {
   const { setUser, setIsLoggedIn, user } = useGlobalContext();
 
   const submit = async () => {
+ 
     if (!form.email || !form.password) {
       Alert.alert("Error", "semua tabel wajib ter-isi terlebih dahulu");
-    } else if (emailValidation === false) {
+      return;
+    }
+    if (!emailValidation) {
       Alert.alert("Error", "Email tidak valid");
-    } else {
-      setIsSubmitting(true);
-      try {
-        await signIn(form.email, form.password);
-        const result = await currentActiveAccount();
+      return;
+    }
 
-        setUser(result);
-        setIsLoggedIn(true);
+    setIsSubmitting(true);
+    try {
+    
+      await signIn(form.email, form.password);
 
-        if (user.role === "Pengelola Sampah") {
-          router.replace("/homeAdmin");
-        } else {
-          router.replace("/home");
-        }
-      } catch (error) {
-        console.log(error);
-        throw new Error(error);
-      } finally {
-        setIsSubmitting(false);
+     
+      const result = await currentActiveAccount();
+      setUser(result);
+      setIsLoggedIn(true);
+
+     
+      if (result.role === "Pengelola Sampah") {
+        router.replace("/homeAdmin");
+      } else if (result.role === "Kurir Sampah") {
+        router.replace("/homeKurir");
+      } else {
+        router.replace("/home");
       }
+    } catch (error) {
+      console.log("Error saat login:", error);
+      if (error.message.includes("Rate limit")) {
+        Alert.alert(
+          "Terlalu banyak percobaan",
+          "Tunggu beberapa saat sebelum mencoba lagi."
+        );
+      } else {
+        Alert.alert("Login gagal", error.message);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

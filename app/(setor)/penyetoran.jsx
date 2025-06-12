@@ -1,5 +1,5 @@
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import  { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CustomAlamatCard from "../../components/CustomAlamatCard";
@@ -9,9 +9,13 @@ import { icons } from "../../constants";
 import { Picker } from "@react-native-picker/picker";
 import { router, useLocalSearchParams } from "expo-router";
 import { handleSetor } from "../../lib/Penyetoranaction";
+import { db, config, account } from "../../lib/appwrite";
+import { Query } from "react-native-appwrite";
+
 
 const DropdownForm = ({ selectedOption, setSelectedOption }) => {
   const tanggalPenjemputan = [
+    { label: "silahkan pilih tanggal penjemputan", value: "" },
     { label: "Kamis, 19 Desember 2024", value: "19-12-2024" },
     { label: "Jumat, 20 Desember 2024", value: "20-12-2024" },
     { label: "Sabtu, 21 Desember 2024", value: "21-12-2024" },
@@ -28,44 +32,86 @@ const DropdownForm = ({ selectedOption, setSelectedOption }) => {
           <Picker.Item key={index} label={item.label} value={item.value} />
         ))}
       </Picker>
-      <Text>
-        Jadwal penjemputan hanya akan dilakukan pada pukul 15:00 sesuai dengan
-        jadwal yang anda pilih
+      <Text className="text-sm text-gray-600 mt-1">
+        Jadwal penjemputan hanya dilakukan pada pukul 15:00 sesuai tanggal yang dipilih.
       </Text>
     </View>
   );
 };
 
+
+const fetchAlamatByUser = async () => {
+  try {
+    const authUser = await account.get();
+    const accountId = authUser.$id;
+
+    const userDoc = await db.listDocuments(
+      config.databaseId,
+      config.userCollectionId,
+      [Query.equal("accountId", accountId)]
+    );
+
+    const userId = userDoc.documents[0].$id;
+    console.log("✅ User ID:", userId);
+
+    const alamatDocs = await db.listDocuments(
+      config.databaseId,
+      config.alamatCollectionId
+    );
+
+    const filteredAlamat = alamatDocs.documents.filter((alamat) =>
+      alamat.user?.some((u) => u.$id === userId)
+    );
+
+    console.log("✅ Filtered Alamat:", filteredAlamat);
+    return filteredAlamat;
+  } catch (error) {
+    console.error("Gagal fetch alamat:", error);
+    return [];
+  }
+};
+
+
 const Penyetoran = () => {
   const { items } = useLocalSearchParams();
   const parsedItems = items ? JSON.parse(items) : [];
 
-  const dummyDataAlamat = [
-    {
-      Tempat: "Rumah",
-      wilayah: "Batu Aji",
-      Nama: "Eco",
-      NoHp: "0837377373",
-      Alamat: "Legenda Malaka blok B12 no 10",
-    },
-  ];
+  const [alamatList, setAlamatList] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedAlamatId, setSelectedAlamatId] = useState(null);
 
-  const [selectedOption, setSelectedOption] = React.useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetchAlamatByUser();
+      setAlamatList(result);
+    };
+    fetchData();
+  }, []);
+
+  const renderAlamat = ({ item }) => (
+  <TouchableOpacity
+    className={`border p-3 rounded-lg mb-2 ${
+      selectedAlamatId === item.$id ? "border-green-800" : "border-gray-300"
+    }`}
+    onPress={() => setSelectedAlamatId(item.$id)}
+  >
+    <CustomAlamatCard
+      Tempat={item.tempat_diterima}
+      wilayah={item.kecamatan}
+      Nama={item.nama_pengirim}
+      NoHp={item.no_hp}
+      Alamat={item.alamat_lengkap}
+      isSelected={selectedAlamatId === item.$id} // 👈 kirim info apakah card ini dipilih
+    />
+  </TouchableOpacity>
+);
 
   return (
     <SafeAreaView className="bg-primary h-full px-4">
       <FlatList
-        data={dummyDataAlamat}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <CustomAlamatCard
-            Tempat={item.Tempat}
-            wilayah={item.wilayah}
-            Nama={item.Nama}
-            NoHp={item.NoHp}
-            Alamat={item.Alamat}
-          />
-        )}
+        data={alamatList}
+        keyExtractor={(item) => item.$id}
+        renderItem={renderAlamat}
         ListHeaderComponent={() => (
           <View className="flex-row mb-5 justify-between mt-7">
             <Text className="font-bold text-xl">Alamat Penjemputan</Text>
@@ -82,10 +128,12 @@ const Penyetoran = () => {
                 <Text className="text-secondary">Tambahkan Sampah?</Text>
               </TouchableOpacity>
             </View>
+
             <CustomTongPenyetoran
               data={parsedItems}
               containerStyles="mt-3 px-4"
             />
+
             <Text className="mt-4 font-bold text-xl">Foto Sampah</Text>
             <View className="w-16 h-16 mt-3 bg-secondary rounded-full justify-center items-center">
               <TouchableOpacity>
@@ -97,13 +145,17 @@ const Penyetoran = () => {
                 />
               </TouchableOpacity>
             </View>
+
             <DropdownForm
               selectedOption={selectedOption}
               setSelectedOption={setSelectedOption}
             />
+
             <CustomButton
-              title="setor"
-              handlePress={() => handleSetor(selectedOption, parsedItems)}
+              title="Setor"
+              handlePress={() =>
+                handleSetor(selectedOption, parsedItems, selectedAlamatId)
+              }
               containerStyles="mb-5 mt-3 w-[93%] self-center h-[45px]"
             />
           </>

@@ -34,6 +34,7 @@ const RootLayout = () => {
         <Stack.Screen name="(setor)" options={{ headerShown: false }} />
         <Stack.Screen name="(statusPage)" options={{ headerShown: false }} />
         <Stack.Screen name="(detail)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabsKurir)" options={{ headerShown: false }} />
       </Stack>
     </GlobalProvider>
   );

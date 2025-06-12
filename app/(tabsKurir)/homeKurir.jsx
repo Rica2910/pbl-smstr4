@@ -1,9 +1,9 @@
-import { View, Text, FlatList, RefreshControl } from "react-native";
+import { View, Text, FlatList, RefreshControl, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomSearchField from "../../components/CustomSearchField";
 import CustomTypeButton from "../../components/CustomTypeButton";
-import CustomFormCard from "../../components/CustomFormCard";
+import CustomFormCard from "../../components/CustomFormCard"
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 import { useGlobalContext } from "../../context/globalProvider";
@@ -17,52 +17,47 @@ const getImageUrl = (fileId) => {
   return `https://cloud.appwrite.io/v1/storage/buckets/${bucketId}/files/${fileId}/view?project=${projectId}`;
 };
 
-const HomeAdmin = () => {
+const HomeKurir = () => {
   const [search, setSearch] = useState({ search: "" });
   const [refreshing, setRefreshing] = useState(false);
-  const [dataArray, setdataArray] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState("Menunggu");
-  const [newItemsArray, setNewItemsArray] = useState([]);
+  const [dataArray, setdataArray] = useState();
 
   const { user } = useGlobalContext();
-
-  const dummyData = ["Menunggu", "Disetujui", "Tidak Disetujui"];
-
- 
-  const statusMapping = {
-    Menunggu: ["Menunggu Penjemputan"],
-    Disetujui: ["Disetujui"],
-    "Tidak Disetujui": ["tidak disetujui"],
-  };
 
   const fetchData = async () => {
     const response = await fetchDataPenyetoran();
     setdataArray(response);
   };
 
-  const filterData = () => {
-    if (!dataArray) return;
-
-    const filtered = dataArray.filter((item) =>
-      statusMapping[filterStatus].includes(item.status)
-    );
-
-    setNewItemsArray(filtered);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const statusIndex =
+    filterStatus === "Menunggu"
+      ? { "Menunggu Penjemputan": 1, "Tidak Disetujui": 2, Disetujui: 3 }
+      : filterStatus === "Disetujui"
+      ? { "Menunggu Penjemputan": 2, "Tidak Disetujui": 3, Disetujui: 1 }
+      : { "Menunggu Penjemputan": 2, "Tidak Disetujui": 1, Disetujui: 3 };
+  const [newItemsArray, setNewItemsArray] = useState();
 
   useEffect(() => {
     filterData();
-  }, [filterStatus, dataArray]);
+    fetchData();
+  }, [filterStatus]);
+
+  const filterData = async () => {
+    const filteredData = dataArray.sort(
+      (a, b) => statusIndex[a.status] - statusIndex[b.status]
+    );
+    setNewItemsArray(filteredData);
+  };
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await fetchData();
+    await filterData();
     setRefreshing(false);
   };
+
+  const dummyData = ["Menunggu", "Disetujui", "Tidak Disetujui"];
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -70,10 +65,10 @@ const HomeAdmin = () => {
         data={newItemsArray}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <CustomFormCard
-            data={item}
-            handlePress={() => router.push(`/validasiPenyetoran?id=${item.$id}`)}
-          />
+         <CustomFormCard
+         data={item}
+         handlePress={() => router.push(`/validasiPenjemputan?id=${item.$id}`)}
+        />
         )}
         ListHeaderComponent={() => (
           <View className="px-4">
@@ -85,14 +80,12 @@ const HomeAdmin = () => {
                 </Text>
               </View>
             </View>
-
             <CustomSearchField
               title="Search"
-              placeholder="Cari sampah yang ingin ditambahkan"
+              placeholder="Cari sampah yang ingin dijemput"
               value={search.search}
               handleChangeText={(e) => setSearch({ ...search, search: e })}
             />
-
             <CustomTypeButton
               data={dummyData}
               filterStatus={filterStatus}
@@ -116,4 +109,4 @@ const HomeAdmin = () => {
   );
 };
 
-export default HomeAdmin;
+export default HomeKurir;

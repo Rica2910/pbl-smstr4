@@ -26,10 +26,6 @@ const Profil = () => {
     ditimbang: 0,
   });
 
-  const fetchCurrentActiveUser = async () => {
-    const user = await currentActiveAccount();
-    setActiveUser([user]); // supaya bisa tetap di-FlatList
-  };
 
   const fetchStatusCounts = async () => {
     try {
@@ -51,38 +47,43 @@ const Profil = () => {
     }
   };
 
+
+  const fetchCurrentActiveUser = async () => {
+    const user = await currentActiveAccount();
+    setActiveUser([user]);
+  };
+
   useEffect(() => {
     fetchCurrentActiveUser();
-    fetchStatusCounts();
+      fetchStatusCounts();
   }, []);
 
   const onRefresh = async () => {
     setRefreshing(true);
     await fetchCurrentActiveUser();
-    await fetchStatusCounts();
     setRefreshing(false);
   };
 
   const dummyData = [
-    {
-      title: "Di proses",
-      icon: icons.box,
-      count: statusCounts.diproses,
-      handlePress: () => router.push("/diproses"),
-    },
-    {
-      title: "Di jemput",
-      icon: icons.truckStatus,
-      count: statusCounts.dijemput,
-      handlePress: () => router.push("/dijemput"),
-    },
-    {
-      title: "Di timbang",
-      icon: icons.neraca,
-      count: statusCounts.ditimbang,
-      handlePress: () => router.push("/ditimbang"),
-    },
-  ];
+      {
+        title: "Di proses",
+        icon: icons.box,
+        count: statusCounts.diproses,
+        handlePress: () => router.push("/diproses"),
+      },
+      {
+        title: "Di jemput",
+        icon: icons.truckStatus,
+        count: statusCounts.dijemput,
+        handlePress: () => router.push("/dijemput"),
+      },
+      {
+        title: "Di timbang",
+        icon: icons.neraca,
+        count: statusCounts.ditimbang,
+        handlePress: () => router.push("/ditimbang"),
+      },
+    ];
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -91,7 +92,7 @@ const Profil = () => {
         keyExtractor={(item) => item.$id}
         ListHeaderComponent={() => (
           <View>
-            <View className="bg-secondary w-full p-4 h-40">
+            <View className="bg-secondary w-full p-4 h-40 ">
               <CustomProfilHeader data={activeUser} />
             </View>
 
