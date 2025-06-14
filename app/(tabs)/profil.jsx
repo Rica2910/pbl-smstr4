@@ -5,6 +5,8 @@ import {
   Image,
   FlatList,
   RefreshControl,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,6 +21,7 @@ import { router } from "expo-router";
 import { currentActiveAccount, signOut } from "../../lib/appwrite";
 import CustomButton from "../../components/CustomButton";
 import { db, config } from "../../lib/appwrite";
+import CustomRedeemPointsModal from "../../components/CustomRedeemPointsModal";
 
 const Profil = () => {
   const [statusCounts, setStatusCounts] = useState({
@@ -26,6 +29,11 @@ const Profil = () => {
     dijemput: 0,
     ditimbang: 0,
   });
+
+  const [refreshing, setRefreshing] = useState(false);
+  const [activeUser, setActiveUser] = useState();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRedeemModalVisible, setIsRedeemModalVisible] = useState(false);
 
   const fetchStatusCounts = async () => {
     try {
@@ -56,12 +64,11 @@ const Profil = () => {
     fetchStatusCounts();
   }, []);
 
-  const [refreshing, setRefreshing] = useState(false);
-  const [activeUser, setActiveUser] = useState();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const fetchCurrentActiveUser = async () => {
     const user = await currentActiveAccount();
+    console.log("User object:", user);
+    console.log("User properties:", Object.keys(user || {}));
+    console.log("User penukaran value:", user?.penukaran);
     setActiveUser([user]);
   };
 
@@ -120,11 +127,23 @@ const Profil = () => {
               <CustomButtonStatus data={dummyData} containerStyles="" />
             </View>
             <View className="p-4 border-b border-secondary">
-              <CustomFlatButton
-                title="Tukarkan poin"
-                icon={icons.transfer}
-                handlePress={() => console.log("Penukaran koin sudah dikirim")}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  console.log("Tukarkan poin button pressed");
+                  console.log("Current modal state:", isRedeemModalVisible);
+                  Alert.alert("Test", "Button pressed!");
+                  setIsRedeemModalVisible(true);
+                  console.log("Modal state after setState:", true);
+                }}
+                className="px-4 flex-row justify-between items-center"
+              >
+                <View className="flex-row items-center gap-2">
+                  <Text className="text-black font-pmedium">Tukarkan poin</Text>
+                </View>
+                <View className="flex-row items-center">
+                  <Text>{">"}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
             <CustomGap />
           </View>
@@ -149,6 +168,13 @@ const Profil = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      
+      <CustomRedeemPointsModal
+        visible={isRedeemModalVisible}
+        onClose={() => setIsRedeemModalVisible(false)}
+        userPoints={activeUser?.[0]?.penukaran || 0}
+      />
+      
       <StatusBar style="dark" backgroundColor="#2dcd6e" />
     </SafeAreaView>
   );
