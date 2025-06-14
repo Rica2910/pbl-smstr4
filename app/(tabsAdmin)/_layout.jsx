@@ -58,23 +58,6 @@ const AdminTabsLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="tambahSampah"
-          options={{
-            title: "Tambah Sampah",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon
-                  name={"Sampah"}
-                  color={color}
-                  icon={icons.trashcan}
-                  focused={focused}
-                />
-              );
-            },
-          }}
-        />
-        <Tabs.Screen
           name="tambahAkun"
           options={{
             title: "Tambah Akun",
@@ -85,23 +68,6 @@ const AdminTabsLayout = () => {
                   name={"Akun"}
                   color={color}
                   icon={icons.plus}
-                  focused={focused}
-                />
-              );
-            },
-          }}
-        />
-        <Tabs.Screen
-          name="riwayat"
-          options={{
-            title: "Riwayat",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon
-                  name={"Riwayat"}
-                  color={color}
-                  icon={icons.bookmark}
                   focused={focused}
                 />
               );

@@ -27,7 +27,7 @@ const CustomTypeButton = ({
               item === filterStatus
                 ? "bg-secondary border border-secondary"
                 : "bg-primary border border-secondary"
-            } rounded-xl min-h-[40px] max-w-[90px] justify-center items-center px-4  ${containerStyles} ${
+            } rounded-xl min-h-[40px] max-w-[99px] justify-center items-center px-4  ${containerStyles} ${
               isLoading ? "opacity-50" : ""
             }`}
             disabled={isLoading}

@@ -12,7 +12,13 @@ export default function App() {
   if (isLoggedIn && !isLoading)
     return (
       <Redirect
-        href={`${user.role === "Pengelola Sampah" ? "/homeAdmin" : "/home"}`}
+        href={`${
+          user.role === "Pengelola Sampah"
+            ? "/homeAdmin"
+            : user.role === "Kurir Sampah"
+            ? "/homeKurir"
+            : "/home"
+        }`}
       />
     );
 

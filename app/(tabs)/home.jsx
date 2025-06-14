@@ -39,7 +39,7 @@ const Home = () => {
       setLoading(true);
       const response = await db.listDocuments(
         config.databaseId,
-        config.sampahCollectionId 
+        config.sampahCollectionId
       );
 
       const fetchedItems = response.documents.map((doc) => ({
@@ -86,6 +86,7 @@ const Home = () => {
           unitType: item.unitType,
           poin: item.poin,
           imagesampah: item.imagesampah,
+          users: user.$id,
         }
       );
 
@@ -135,9 +136,7 @@ const Home = () => {
               title="Search"
               placeholder="Cari sampah yang ingin ditambahkan"
               value={search.search}
-              handleChangeText={(e) =>
-                setSearch({ ...search, search: e })
-              }
+              handleChangeText={(e) => setSearch({ ...search, search: e })}
             />
             <CustomTypeButton
               data={dummyData}

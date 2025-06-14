@@ -20,42 +20,41 @@ import { currentActiveAccount, signOut } from "../../lib/appwrite";
 import CustomButton from "../../components/CustomButton";
 import { db, config } from "../../lib/appwrite";
 
-
-
-
 const Profil = () => {
   const [statusCounts, setStatusCounts] = useState({
-  diproses: 0,
-  dijemput: 0,
-  ditimbang: 0,
-});
+    diproses: 0,
+    dijemput: 0,
+    ditimbang: 0,
+  });
 
-const fetchStatusCounts = async () => {
-  try {
-    const response = await db.listDocuments(
-      config.databaseId,
-      config.penyetoranCollectionId
-    );
+  const fetchStatusCounts = async () => {
+    try {
+      const response = await db.listDocuments(
+        config.databaseId,
+        config.penyetoranCollectionId
+      );
 
-    const documents = response.documents;
+      const documents = response.documents;
 
-    const counts = {
-      diproses: documents.filter((doc) => doc.status === "Menunggu Penjemputan"|| doc.status === "Disetujui").length,
-      dijemput: documents.filter((doc) => doc.status === "dijemput").length,
-      ditimbang: documents.filter((doc) => doc.status === "ditimbang").length,
-    };
+      const counts = {
+        diproses: documents.filter(
+          (doc) =>
+            doc.status === "Menunggu Penjemputan" || doc.status === "Disetujui"
+        ).length,
+        dijemput: documents.filter((doc) => doc.status === "dijemput").length,
+        ditimbang: documents.filter((doc) => doc.status === "ditimbang").length,
+      };
 
-    setStatusCounts(counts);
-  } catch (error) {
-    console.error("Gagal mengambil data status:", error);
-  }
-};
+      setStatusCounts(counts);
+    } catch (error) {
+      console.error("Gagal mengambil data status:", error);
+    }
+  };
 
-useEffect(() => {
-  fetchCurrentActiveUser();
-  fetchStatusCounts();
-}, []);
-
+  useEffect(() => {
+    fetchCurrentActiveUser();
+    fetchStatusCounts();
+  }, []);
 
   const [refreshing, setRefreshing] = useState(false);
   const [activeUser, setActiveUser] = useState();
@@ -77,28 +76,28 @@ useEffect(() => {
   };
 
   const dummyData = [
-  {
-    id: "1",
-    title: "Di proses",
-    icon: icons.box,
-    count: statusCounts.diproses,
-    handlePress: () => router.push("/diproses"),
-  },
-  {
-    id: "2",
-    title: "Di jemput",
-    icon: icons.truckStatus,
-    count: statusCounts.dijemput,
-    handlePress: () => router.push("/dijemput"),
-  },
-  {
-    id: "3",
-    title: "Di timbang",
-    icon: icons.neraca,
-    count: statusCounts.ditimbang,
-    handlePress: () => router.push("/ditimbang"),
-  },
-];
+    {
+      id: "1",
+      title: "Di proses",
+      icon: icons.box,
+      count: statusCounts.diproses,
+      handlePress: () => router.push("/diproses"),
+    },
+    {
+      id: "2",
+      title: "Di jemput",
+      icon: icons.truckStatus,
+      count: statusCounts.dijemput,
+      handlePress: () => router.push("/dijemput"),
+    },
+    {
+      id: "3",
+      title: "Di timbang",
+      icon: icons.neraca,
+      count: statusCounts.ditimbang,
+      handlePress: () => router.push("/ditimbang"),
+    },
+  ];
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -124,7 +123,7 @@ useEffect(() => {
               <CustomFlatButton
                 title="Tukarkan poin"
                 icon={icons.transfer}
-                handlePress={() => router.push("/homeAdmin")}
+                handlePress={() => console.log("Penukaran koin sudah dikirim")}
               />
             </View>
             <CustomGap />
@@ -134,15 +133,15 @@ useEffect(() => {
           <View>
             <CustomGap />
             <View className="px-4">
-             <CustomButton
-  title={"keluar"}
-  containerStyles={"mt-3 h-[50px]"}
-  handlePress={() => {
-    console.log("Tombol logout ditekan");
-    signOut();
-  }}
-  isLoading={isSubmitting}
-/>
+              <CustomButton
+                title={"keluar"}
+                containerStyles={"mt-3 h-[50px]"}
+                handlePress={() => {
+                  console.log("Tombol logout ditekan");
+                  signOut();
+                }}
+                isLoading={isSubmitting}
+              />
             </View>
           </View>
         }

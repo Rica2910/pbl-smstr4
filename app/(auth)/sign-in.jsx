@@ -27,7 +27,6 @@ const SignIn = () => {
   const { setUser, setIsLoggedIn, user } = useGlobalContext();
 
   const submit = async () => {
- 
     if (!form.email || !form.password) {
       Alert.alert("Error", "semua tabel wajib ter-isi terlebih dahulu");
       return;
@@ -39,15 +38,12 @@ const SignIn = () => {
 
     setIsSubmitting(true);
     try {
-    
       await signIn(form.email, form.password);
 
-     
       const result = await currentActiveAccount();
       setUser(result);
       setIsLoggedIn(true);
 
-     
       if (result.role === "Pengelola Sampah") {
         router.replace("/homeAdmin");
       } else if (result.role === "Kurir Sampah") {
@@ -104,12 +100,6 @@ const SignIn = () => {
               title={"Login"}
               containerStyles={"mt-3 h-[50px]"}
               handlePress={submit}
-              isLoading={isSubmitting}
-            />
-            <CustomButton
-              title={"keluar"}
-              containerStyles={"mt-3 h-[50px]"}
-              handlePress={signOut}
               isLoading={isSubmitting}
             />
           </View>

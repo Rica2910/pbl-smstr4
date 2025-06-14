@@ -1,20 +1,15 @@
-import {
-  View,
-  Text,
-  FlatList,
-  RefreshControl,
-} from "react-native";
+import { View, Text, FlatList, RefreshControl } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import {  icons } from "../../constants";
+import { icons } from "../../constants";
 import CustomButtonStatus from "../../components/CustomButtonStatus";
 import CustomProfilHeader from "../../components/CustomProfilHeader";
 import CustomGap from "../../components/CustomGap";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
 import { currentActiveAccount, signOut } from "../../lib/appwrite";
-import { db, config } from "../../lib/appwrite"; 
+import { db, config } from "../../lib/appwrite";
 
 const Profil = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -40,7 +35,10 @@ const Profil = () => {
       const documents = response.documents;
 
       const counts = {
-        diproses: documents.filter((doc) => doc.status === "Menunggu Penjemputan" || doc.status === "Disetujui").length,
+        diproses: documents.filter(
+          (doc) =>
+            doc.status === "Menunggu Penjemputan" || doc.status === "Disetujui"
+        ).length,
         dijemput: documents.filter((doc) => doc.status === "dijemput").length,
         ditimbang: documents.filter((doc) => doc.status === "ditimbang").length,
       };

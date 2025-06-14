@@ -7,7 +7,12 @@ import CustomFormCard from "../../components/CustomFormCard";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 import { useGlobalContext } from "../../context/globalProvider";
-import { fetchDataPenyetoran } from "../../lib/appwrite";
+import {
+  databaseId,
+  db,
+  fetchDataPenyetoran,
+  penyetoranCollectionId,
+} from "../../lib/appwrite";
 import { router } from "expo-router";
 
 const bucketId = "6805fcb3001db0d06f70";
@@ -18,21 +23,32 @@ const getImageUrl = (fileId) => {
 };
 
 const HomeAdmin = () => {
-  const [search, setSearch] = useState({ search: "" });
   const [refreshing, setRefreshing] = useState(false);
   const [dataArray, setdataArray] = useState([]);
-  const [filterStatus, setFilterStatus] = useState("Menunggu");
+  const [filterStatus, setFilterStatus] = useState("Semua");
   const [newItemsArray, setNewItemsArray] = useState([]);
 
   const { user } = useGlobalContext();
 
-  const dummyData = ["Menunggu", "Disetujui", "Tidak Disetujui"];
+  const dummyData = [
+    "Semua",
+    "Menunggu Persetujuan",
+    "Menunggu Penjemputan",
+    "Selesai",
+    "Tidak Setuju",
+  ];
 
- 
   const statusMapping = {
-    Menunggu: ["Menunggu Penjemputan"],
-    Disetujui: ["Disetujui"],
-    "Tidak Disetujui": ["tidak disetujui"],
+    Semua: [
+      "Menunggu Persetujuan",
+      "Menunggu Penjemputan",
+      "Selesai",
+      "Tidak Setuju",
+    ],
+    "Menunggu Persetujuan": ["Menunggu Persetujuan"],
+    "Menunggu Penjemputan": ["Menunggu Penjemputan"],
+    Selesai: ["Selesai"],
+    "Tidak Setuju": ["Tidak Setuju"],
   };
 
   const fetchData = async () => {
@@ -64,6 +80,26 @@ const HomeAdmin = () => {
     setRefreshing(false);
   };
 
+  const queryForm = async (inquery) => {
+    try {
+      const response = await db.getDocument(
+        databaseId,
+        penyetoranCollectionId,
+        inquery.nativeEvent.text
+      );
+
+      if (Array.isArray([response])) {
+        console.log("Response adalah array");
+        setNewItemsArray([response]);
+      } else {
+        console.log("Response bukan sebuah array");
+        setNewItemsArray([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
@@ -72,7 +108,9 @@ const HomeAdmin = () => {
         renderItem={({ item }) => (
           <CustomFormCard
             data={item}
-            handlePress={() => router.push(`/validasiPenyetoran?id=${item.$id}`)}
+            handlePress={() =>
+              router.push(`/validasiPenyetoran?id=${item.$id}`)
+            }
           />
         )}
         ListHeaderComponent={() => (
@@ -89,8 +127,7 @@ const HomeAdmin = () => {
             <CustomSearchField
               title="Search"
               placeholder="Cari sampah yang ingin ditambahkan"
-              value={search.search}
-              handleChangeText={(e) => setSearch({ ...search, search: e })}
+              onEndEditing={(e) => queryForm(e)}
             />
 
             <CustomTypeButton

@@ -14,15 +14,21 @@ import CustomTongCard from "../../components/CustomTongCard";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 import { getSampahTongItems, deleteSampahTongItem } from "../../lib/action";
+import { useGlobalContext } from "../../context/globalProvider";
 
 const Tong = () => {
   const [tongItems, setTongItems] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
+  const { user } = useGlobalContext();
 
   const fetchTongItems = async () => {
-    const items = await getSampahTongItems();
-    setTongItems(items);
+    try {
+      const items = await getSampahTongItems(user);
+      setTongItems(items);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -37,9 +43,7 @@ const Tong = () => {
 
   const toggleSelectItem = (id) => {
     setSelectedItems((prev) =>
-      prev.includes(id)
-        ? prev.filter((itemId) => itemId !== id)
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
     );
   };
 
@@ -78,34 +82,30 @@ const Tong = () => {
   const handleDeleteSelected = async () => {
     if (selectedItems.length === 0) return;
 
-    Alert.alert(
-      "Konfirmasi",
-      `Hapus ${selectedItems.length} item terpilih?`,
-      [
-        {
-          text: "Tidak",
-          style: "cancel",
-        },
-        {
-          text: "Ya",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              for (const id of selectedItems) {
-                await deleteSampahTongItem(id);
-              }
-              const updatedItems = tongItems.filter(
-                (item) => !selectedItems.includes(item.$id)
-              );
-              setTongItems(updatedItems);
-              setSelectedItems([]);
-            } catch (error) {
-              console.error("Gagal hapus item terpilih:", error);
+    Alert.alert("Konfirmasi", `Hapus ${selectedItems.length} item terpilih?`, [
+      {
+        text: "Tidak",
+        style: "cancel",
+      },
+      {
+        text: "Ya",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            for (const id of selectedItems) {
+              await deleteSampahTongItem(id);
             }
-          },
+            const updatedItems = tongItems.filter(
+              (item) => !selectedItems.includes(item.$id)
+            );
+            setTongItems(updatedItems);
+            setSelectedItems([]);
+          } catch (error) {
+            console.error("Gagal hapus item terpilih:", error);
+          }
         },
-      ]
-    );
+      },
+    ]);
   };
 
   return (

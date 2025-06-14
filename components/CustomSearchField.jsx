@@ -10,25 +10,23 @@ const CustomSearchField = ({
   handleChangeText,
   otherStyles,
   keyboardStyles,
+  onEndEditing,
   ...props
 }) => {
-  const searching = async () => {
-    console.log("searching");
-  };
-
   return (
     <View className={`space-y-2 ${otherStyles}`}>
       <View className="w-full py-2 px-4 bg-primary border border-secondary rounded-2xl items-center flex-row focus:border-secondary">
         <TextInput
           className="flex-1 text-black font-psemibold text-base "
           value={value}
-          placeholder="Cari sampah untuk di jemput"
+          placeholder={placeholder}
           onChangeText={handleChangeText}
           secureTextEntry={title === "Password" && !showPassword}
           keyboardType={keyboardStyles}
           textAlignVertical="center"
+          onEndEditing={onEndEditing}
         />
-        <TouchableOpacity onPress={searching}>
+        <TouchableOpacity>
           <Image
             className="w-6 h-6"
             source={icons.search}
