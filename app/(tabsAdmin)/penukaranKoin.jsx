@@ -10,11 +10,12 @@ import { useGlobalContext } from "../../context/globalProvider";
 import {
   databaseId,
   db,
+  fetchDataPenukaran,
   fetchDataPenyetoran,
+  penukaranRequestCollectionId,
   penyetoranCollectionId,
 } from "../../lib/appwrite";
 import { router } from "expo-router";
-import CustomProsesCard from "../../components/CustomProsesCard";
 
 const bucketId = "6805fcb3001db0d06f70";
 const projectId = "6805f3350031a662e30f";
@@ -23,7 +24,7 @@ const getImageUrl = (fileId) => {
   return `https://cloud.appwrite.io/v1/storage/buckets/${bucketId}/files/${fileId}/view?project=${projectId}`;
 };
 
-const HomeAdmin = () => {
+const PenukaranKoin = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [dataArray, setdataArray] = useState([]);
   const [filterStatus, setFilterStatus] = useState("Semua");
@@ -34,26 +35,19 @@ const HomeAdmin = () => {
   const dummyData = [
     "Semua",
     "Menunggu Persetujuan",
-    "Menunggu Penjemputan",
     "Selesai",
     "Tidak Setuju",
   ];
 
   const statusMapping = {
-    Semua: [
-      "Menunggu Persetujuan",
-      "Menunggu Penjemputan",
-      "Selesai",
-      "Tidak Setuju",
-    ],
+    Semua: ["Menunggu Persetujuan", "Selesai", "Tidak Setuju"],
     "Menunggu Persetujuan": ["Menunggu Persetujuan"],
-    "Menunggu Penjemputan": ["Menunggu Penjemputan"],
     Selesai: ["Selesai"],
     "Tidak Setuju": ["Tidak Setuju"],
   };
 
   const fetchData = async () => {
-    const response = await fetchDataPenyetoran();
+    const response = await fetchDataPenukaran();
     setdataArray(response);
   };
 
@@ -85,10 +79,9 @@ const HomeAdmin = () => {
     try {
       const response = await db.getDocument(
         databaseId,
-        penyetoranCollectionId,
+        penukaranRequestCollectionId,
         inquery.nativeEvent.text
       );
-
       if (Array.isArray([response])) {
         console.log("Response adalah array");
         setNewItemsArray([response]);
@@ -107,28 +100,26 @@ const HomeAdmin = () => {
         data={newItemsArray}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <CustomProsesCard
+          <CustomFormCard
             data={item}
-            containerStyles={"px-4 mt-2"}
-            handlePress={() =>
-              router.push(`/validasiPenyetoran?id=${item.$id}`)
-            }
+            handlePress={() => router.push(`/validasiPenukaran?id=${item.$id}`)}
           />
         )}
         ListHeaderComponent={() => (
           <View className="px-4">
             <View className="mt-5 h-20 justify-center">
               <View className="flex-row">
-                <Text className="text-3xl font-pmedium">Selamat datang, </Text>
+                <Text className="text-3xl font-pmedium">
+                  Hati-hati menukar{" "}
+                </Text>
                 <Text className="text-3xl font-pmedium text-secondary">
-                  {user.nama}
+                  Koin
                 </Text>
               </View>
             </View>
-
             <CustomSearchField
               title="Search"
-              placeholder="Cari sampah yang ingin ditambahkan"
+              placeholder="Ketik transaksi yang ingin anda cari"
               onEndEditing={(e) => queryForm(e)}
             />
 
@@ -142,7 +133,7 @@ const HomeAdmin = () => {
         )}
         ListEmptyComponent={() => (
           <CustomEmptyState
-            title="Form sampah yang anda cari tidak ada"
+            title="Transaksi yang anda cari tidak ada"
             subtitle="Kosong"
           />
         )}
@@ -155,4 +146,4 @@ const HomeAdmin = () => {
   );
 };
 
-export default HomeAdmin;
+export default PenukaranKoin;

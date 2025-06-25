@@ -66,9 +66,6 @@ const Profil = () => {
 
   const fetchCurrentActiveUser = async () => {
     const user = await currentActiveAccount();
-    console.log("User object:", user);
-    console.log("User properties:", Object.keys(user || {}));
-    console.log("User penukaran value:", user?.penukaran);
     setActiveUser([user]);
   };
 
@@ -129,11 +126,7 @@ const Profil = () => {
             <View className="p-4 border-b border-secondary">
               <TouchableOpacity
                 onPress={() => {
-                  console.log("Tukarkan poin button pressed");
-                  console.log("Current modal state:", isRedeemModalVisible);
-                  Alert.alert("Test", "Button pressed!");
                   setIsRedeemModalVisible(true);
-                  console.log("Modal state after setState:", true);
                 }}
                 className="px-4 flex-row justify-between items-center"
               >
@@ -168,13 +161,14 @@ const Profil = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
-      
+
       <CustomRedeemPointsModal
         visible={isRedeemModalVisible}
         onClose={() => setIsRedeemModalVisible(false)}
-        userPoints={activeUser?.[0]?.penukaran || 0}
+        userPoints={activeUser?.[0]?.coin || 0}
+        userId={activeUser?.[0]?.$id || ""}
       />
-      
+
       <StatusBar style="dark" backgroundColor="#2dcd6e" />
     </SafeAreaView>
   );

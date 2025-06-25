@@ -25,6 +25,11 @@ const TambahAkun = () => {
   });
   const [emailValidation, setEmailValidation] = useState(false);
 
+  const dropDownList = [
+    { role: "Kurir Sampah", value: "Kurir Sampah" },
+    { role: "Pengelola Sampah", value: "Pengelola Sampah" },
+  ];
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { setUser, setIsLoggedIn } = useGlobalContext();
   const [selectedOption, setSelectedOption] = useState("Kurir Sampah");
@@ -109,6 +114,7 @@ const TambahAkun = () => {
               />
               <CustomSelectForm
                 selectedOption={selectedOption}
+                dropDownList={dropDownList}
                 setSelectedOption={setSelectedOption}
               />
             </View>
