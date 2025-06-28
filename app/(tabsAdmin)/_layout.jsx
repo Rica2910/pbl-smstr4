@@ -5,14 +5,14 @@ import { StatusBar } from "expo-status-bar";
 import { icons } from "../../constants";
 import "../../global.css";
 
-const TabsIcon = ({ icon, color, focused, name }) => {
+const TabsIcon = ({ icon, color, focused, name, size }) => {
   return (
     <View className="items-center justify-center gap-2 w-20 ">
       <Image
         source={icon}
         resizeMode="contain"
         tintColor={color}
-        className="w-6 h-6"
+        className={`${size}`}
       />
       <Text
         className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
@@ -52,6 +52,25 @@ const AdminTabsLayout = () => {
                   color={color}
                   icon={icons.home}
                   focused={focused}
+                  size={"w-6 h-6"}
+                />
+              );
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="penukaranKoin"
+          options={{
+            title: "Penukaran Koin",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => {
+              return (
+                <TabsIcon
+                  name={"Koin"}
+                  color={color}
+                  icon={icons.twoArrows}
+                  focused={focused}
+                  size={"w-8 h-8"}
                 />
               );
             },
@@ -69,6 +88,7 @@ const AdminTabsLayout = () => {
                   color={color}
                   icon={icons.plus}
                   focused={focused}
+                  size={"w-6 h-6"}
                 />
               );
             },
@@ -86,6 +106,7 @@ const AdminTabsLayout = () => {
                   color={color}
                   icon={icons.profile}
                   focused={focused}
+                  size={"w-6 h-6"}
                 />
               );
             },

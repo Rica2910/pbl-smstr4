@@ -20,6 +20,7 @@ import neraca from "../assets/icons/budget-balance.png";
 import transfer from "../assets/icons/transfer.png";
 import poin from "../assets/icons/poin.png";
 import camera from "../assets/icons/camera.png";
+import twoArrows from "../assets/icons/two-arrows.png";
 
 export default {
   play,
@@ -44,4 +45,5 @@ export default {
   transfer,
   poin,
   camera,
+  twoArrows,
 };
