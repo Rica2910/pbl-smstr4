@@ -1,5 +1,4 @@
 import { Text, TouchableOpacity, FlatList, View } from "react-native";
-import React, { useState } from "react";
 
 const CustomTypeButton = ({
   containerStyles,

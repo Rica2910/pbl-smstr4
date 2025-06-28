@@ -52,7 +52,7 @@ const fetchAlamatByUser = async () => {
     );
 
     const userId = userDoc.documents[0].$id;
-    console.log("✅ User ID:", userId);
+    console.log("User ID:", userId);
 
     const alamatDocs = await db.listDocuments(
       config.databaseId,
@@ -63,7 +63,7 @@ const fetchAlamatByUser = async () => {
       alamat.user?.some((u) => u.$id === userId)
     );
 
-    console.log("✅ Filtered Alamat:", filteredAlamat);
+    console.log("Filtered Alamat:", filteredAlamat);
     return filteredAlamat;
   } catch (error) {
     console.error("Gagal fetch alamat:", error);
@@ -101,7 +101,7 @@ const Penyetoran = () => {
       Nama={item.nama_pengirim}
       NoHp={item.no_hp}
       Alamat={item.alamat_lengkap}
-      isSelected={selectedAlamatId === item.$id} // 👈 kirim info apakah card ini dipilih
+      isSelected={selectedAlamatId === item.$id} 
     />
   </TouchableOpacity>
 );

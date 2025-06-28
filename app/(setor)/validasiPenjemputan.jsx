@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, Image, SafeAreaView, Alert } from "react-
 import { useLocalSearchParams } from "expo-router";
 import { updateDocumentPenyetoran } from "../../lib/Penyetoranaction";
 import {fetchDataPenyetoran} from "../../lib/appwrite";
+import { router } from "expo-router";
 
 const ValidasiPenjemputan = () => {
   const bucketId = "6805fcb3001db0d06f70";
@@ -19,7 +20,7 @@ const ValidasiPenjemputan = () => {
   const getData = async () => {
     if (id) {
       const result = await fetchDataPenyetoran(id);
-      setData(result[0]);
+setData(result);
       console.log("DATA PENYETORAN:", result);
     }
   };
@@ -28,22 +29,29 @@ const ValidasiPenjemputan = () => {
     getData();
   }, [id]);
 
-  const handleKirimKurir = async () => {
-    try {
-      setLoading(true);
-      await updateDocumentPenyetoran(id, {
-        status: "Disetujui", 
-      });
-      Alert.alert("Sukses", "Status berhasil diubah menjadi Disetujui");
-      await getData();
-    } catch (error) {
-      console.error("Gagal update status:", error);
-      Alert.alert("Error", "Gagal menyetujui penyetoran.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleKirimKurir = async () => {
+  try {
+    setLoading(true);
 
+    await updateDocumentPenyetoran(id, {
+      status: "dijemput",
+    });
+
+    Alert.alert("Berhasil", "Segera jemput!");
+
+    // Navigasi ke halaman detailAlamat dan kirim id-nya
+    router.push({
+      pathname: "/(setor)/detailAlamat",
+      params: { id },
+    });
+
+  } catch (error) {
+    console.error("Gagal update status:", error);
+    Alert.alert("Error", "Gagal menyetujui penyetoran.");
+  } finally {
+    setLoading(false);
+  }
+};
   if (!data) {
     return (
       <SafeAreaView>
@@ -54,7 +62,7 @@ const ValidasiPenjemputan = () => {
 
   return (
     <SafeAreaView className="h-full bg-primary">
-      <View className="border border-secondary rounded-lg w-[80%] self-center mt-8">
+      <View className="border border-secondary rounded-lg w-[80%] self-center my-auto">
         {data.imagesampah && (
           <Image
             source={{ uri: getImageUrl(data.imagesampah) }}
@@ -66,7 +74,6 @@ const ValidasiPenjemputan = () => {
           <Text className="font-bold text-lg">Sampah: {data.title}</Text>
           <Text className="font-bold text-lg">Jenis: {data.type}</Text>
           <Text className="font-bold text-lg">Penyumbang: {data.users?.nama}</Text>
-          <Text className="font-bold text-lg">ID Penyetoran: {data.$id}</Text>
 
           {data.alamat ? (
             <View className="mt-2">
@@ -98,3 +105,4 @@ const ValidasiPenjemputan = () => {
 };
 
 export default ValidasiPenjemputan;
+

@@ -7,7 +7,7 @@ import CustomFormCard from "../../components/CustomFormCard"
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 import { useGlobalContext } from "../../context/globalProvider";
-import { fetchDataPenyetoran } from "../../lib/appwrite";
+import { fetchAllPenyetoran } from "../../lib/appwrite";
 import { router } from "expo-router";
 
 const bucketId = "6805fcb3001db0d06f70";
@@ -26,10 +26,11 @@ const HomeKurir = () => {
 
   const { user } = useGlobalContext();
 
-  const fetchData = async () => {
-    const response = await fetchDataPenyetoran();
-    setdataArray(response);
-  };
+ const fetchData = async () => {
+  const response = await fetchAllPenyetoran();
+  setdataArray(response);
+};
+
 
   const statusIndex =
     filterStatus === "Menunggu"

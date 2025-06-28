@@ -58,16 +58,16 @@ const PengelolaTabsLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="sampah"
+          name="Timbang"
           options={{
-            title: "sampah",
+            title: "Timbang",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => {
               return (
                 <TabsIcon
-                  name={"Sampah"}
+                  name={"Timbang"}
                   color={color}
-                  icon={icons.trashcan}
+                  icon={icons.neraca}
                   focused={focused}
                 />
               );

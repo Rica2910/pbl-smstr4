@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const sampah = () => {
+const timbang = () => {
   return (
     <View>
-      <Text>sampah</Text>
+      <Text>timbang</Text>
     </View>
   )
 }
 
-export default sampah
+export default timbang

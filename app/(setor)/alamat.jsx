@@ -30,7 +30,7 @@ const Alamat = () => {
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className="items-center justify-center mt-5 px-4 h-full w-full">
           <Text className="font-bold text-secondary text-[27px]">
-            Alamat Penjemputan
+            Alamat Penjempu
           </Text>
 
           <View className="w-full max-w-md flex flex-col gap-4 mt-5">
@@ -102,3 +102,5 @@ const Alamat = () => {
 };
 
 export default Alamat;
+
+
