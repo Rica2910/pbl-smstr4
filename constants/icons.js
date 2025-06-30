@@ -21,6 +21,9 @@ import transfer from "../assets/icons/transfer.png";
 import poin from "../assets/icons/poin.png";
 import camera from "../assets/icons/camera.png";
 import twoArrows from "../assets/icons/two-arrows.png";
+import clock from "../assets/icons/clock.png";
+import finishflag from "../assets/icons/finishflag.png";
+import campaign from "../assets/icons/campaign.png";
 
 export default {
   play,
@@ -46,4 +49,7 @@ export default {
   poin,
   camera,
   twoArrows,
+  clock,
+  finishflag,
+  campaign
 };

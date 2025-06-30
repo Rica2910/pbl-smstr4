@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomSearchField from "../../components/CustomSearchField";
 import CustomTypeButton from "../../components/CustomTypeButton";
-import CustomFormCard from "../../components/CustomFormCard"
+import CustomFormCard from "../../components/CustomFormCard";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 import { useGlobalContext } from "../../context/globalProvider";
@@ -21,55 +21,78 @@ const HomeKurir = () => {
   const [search, setSearch] = useState({ search: "" });
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [filterStatus, setFilterStatus] = useState("Menunggu");
-  const [dataArray, setdataArray] = useState();
+  const [filterStatus, setFilterStatus] = useState("Semua");
+  const [dataArray, setDataArray] = useState([]);
+  const [newItemsArray, setNewItemsArray] = useState([]);
 
   const { user } = useGlobalContext();
 
- const fetchData = async () => {
-  const response = await fetchAllPenyetoran();
-  setdataArray(response);
-};
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetchAllPenyetoran();
+      setDataArray(response);
+    } catch (error) {
+      console.error("Gagal fetch data:", error);
+      Alert.alert("Error", "Gagal mengambil data dari server.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const filterData = () => {
+    if (!dataArray) return;
 
-  const statusIndex =
-    filterStatus === "Menunggu"
-      ? { "Menunggu Penjemputan": 1, "Tidak Disetujui": 2, Disetujui: 3 }
-      : filterStatus === "Disetujui"
-      ? { "Menunggu Penjemputan": 2, "Tidak Disetujui": 3, Disetujui: 1 }
-      : { "Menunggu Penjemputan": 2, "Tidak Disetujui": 1, Disetujui: 3 };
-  const [newItemsArray, setNewItemsArray] = useState();
+    if (filterStatus === "Semua") {
+      setNewItemsArray(dataArray);
+    } else {
+      const filtered = dataArray.filter((item) =>
+        item.status.toLowerCase().includes(filterStatus.toLowerCase())
+      );
+      setNewItemsArray(filtered);
+    }
+  };
+
+  useEffect(() => {
+    const loadData = async () => {
+      await fetchData();
+    };
+
+    loadData();
+  }, []);
 
   useEffect(() => {
     filterData();
-    fetchData();
-  }, [filterStatus]);
-
-  const filterData = async () => {
-    const filteredData = dataArray.sort(
-      (a, b) => statusIndex[a.status] - statusIndex[b.status]
-    );
-    setNewItemsArray(filteredData);
-  };
+  }, [filterStatus, dataArray]);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await filterData();
+    await fetchData();
     setRefreshing(false);
   };
 
-  const dummyData = ["Menunggu", "Disetujui", "Tidak Disetujui"];
+  const dummyData = [
+    "Semua",
+    "Menunggu Penjemputan",
+    "Disetujui",
+    "Dijemput",
+    "Tidak Disetujui",
+    "Selesai",
+    "Batal",
+  ];
 
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
-        data={newItemsArray}
+        data={newItemsArray || []}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-         <CustomFormCard
-         data={item}
-         handlePress={() => router.push(`/validasiPenjemputan?id=${item.$id}`)}
-        />
+          <CustomFormCard
+            data={item}
+            handlePress={() =>
+              router.push(`/validasiPenjemputan?id=${item.$id}`)
+            }
+          />
         )}
         ListHeaderComponent={() => (
           <View className="px-4">

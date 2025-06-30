@@ -28,24 +28,28 @@ const Profil = () => {
 
 
   const fetchStatusCounts = async () => {
-    try {
-      const response = await db.listDocuments(
-        config.databaseId,
-        config.penyetoranCollectionId
-      );
-      const documents = response.documents;
-
-      const counts = {
-        diproses: documents.filter((doc) => doc.status === "Menunggu Penjemputan" || doc.status === "Disetujui").length,
-        dijemput: documents.filter((doc) => doc.status === "dijemput").length,
-        ditimbang: documents.filter((doc) => doc.status === "ditimbang").length,
-      };
-
-      setStatusCounts(counts);
-    } catch (error) {
-      console.error("Gagal mengambil data status:", error);
-    }
-  };
+      try {
+        const response = await db.listDocuments(
+          config.databaseId,
+          config.penyetoranCollectionId
+        );
+  
+        const documents = response.documents;
+  
+        const counts = {
+          diproses: documents.filter(
+            (doc) =>
+              doc.status === "Menunggu Penjemputan" 
+          ).length,
+          dijemput: documents.filter((doc) => doc.status === "dijemput").length,
+          selesai: documents.filter((doc) => doc.status === "selesai").length,
+        };
+  
+        setStatusCounts(counts);
+      } catch (error) {
+        console.error("Gagal mengambil data status:", error);
+      }
+    };
 
 
   const fetchCurrentActiveUser = async () => {
@@ -64,26 +68,36 @@ const Profil = () => {
     setRefreshing(false);
   };
 
-  const dummyData = [
-      {
-        title: "Di proses",
-        icon: icons.box,
-        count: statusCounts.diproses,
-        handlePress: () => router.push("/diproses"),
-      },
-      {
-        title: "Di jemput",
-        icon: icons.truckStatus,
-        count: statusCounts.dijemput,
-        handlePress: () => router.push("/dijemput"),
-      },
-      {
-        title: "Di timbang",
-        icon: icons.neraca,
-        count: statusCounts.ditimbang,
-        handlePress: () => router.push("/ditimbang"),
-      },
-    ];
+ const dummyData = [
+     {
+       id: "1",
+       title: "Menunggu persetujuan",
+       icon: icons.clock,
+       count: statusCounts.diproses,
+       handlePress: () => router.push("/menunggu_persetujuan"),
+     },
+     {
+       id: "2",
+       title: "diproses",
+       icon: icons.box,
+       count: statusCounts.diproses,
+       handlePress: () => router.push("/diproses"),
+     },
+     {
+       id: "2",
+       title: "Di jemput",
+       icon: icons.truckStatus,
+       count: statusCounts.dijemput,
+       handlePress: () => router.push("/dijemput"),
+     },
+     {
+       id: "3",
+       title: "selesai",
+       icon: icons.finishflag,
+       count: statusCounts.selesai,
+       handlePress: () => router.push("/selesai"),
+     },
+   ];
 
   return (
     <SafeAreaView className="bg-primary h-full">

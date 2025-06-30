@@ -1,6 +1,5 @@
 import { View, Text, Image } from "react-native";
 import CustomButton from "./CustomButton";
-import { router } from "expo-router";
 
 const config = {
   storageId: "6805fcb3001db0d06f70",

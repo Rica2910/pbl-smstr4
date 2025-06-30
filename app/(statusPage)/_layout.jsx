@@ -1,15 +1,13 @@
-import { View, Text, Image } from "react-native";
-import React from "react";
-import { Stack, Tabs } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { icons } from "../../constants";
+import { Text, View } from "react-native";
+import { Tabs } from "expo-router";
+import CustomStatusBarCard from "../../components/CustomStatusBarCard";
 import "../../global.css";
 
 const TabsIcon = ({ color, focused, name }) => {
   return (
-    <View className="flex-1 items-center justify-end w-20 h-full ">
+    <View className="flex-1 items-center justify-end w-20 h-full">
       <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-m`}
+        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
         style={{ color: color }}
       >
         {name}
@@ -20,83 +18,62 @@ const TabsIcon = ({ color, focused, name }) => {
 
 const TabsLayout = () => {
   return (
-    <>
-      <Tabs
-        screenOptions={{
-          tabBarShowLabel: false,
-          tabBarActiveTintColor: "#2dcd6e",
-          tabBarInactiveBackgroundColor: "#fff",
-          tabBarPosition: "top",
-          tabBarStyle: {
-            backgroundColor: "#fff",
-            borderBottomWidth: 1,
-            borderTopColor: "#2dcd6e",
-            height: 100,
-          },
+    <Tabs
+      tabBar={(props) => <CustomStatusBarCard {...props} />}
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: "#2dcd6e",
+        tabBarInactiveTintColor: "#999",
+        tabBarPosition: "top",
+      }}
+    >
+      <Tabs.Screen
+        name="menunggu_persetujuan"
+        options={{
+          title: "Menunggu Persetujuan",
+          tabBarIcon: ({ color, focused }) => (
+            <TabsIcon name="Menunggu Persetujuan" color={color} focused={focused} />
+          ),
         }}
-      >
-        <Tabs.Screen
-          name="diproses"
-          options={{
-            title: "diproses",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon name={"Proses"} color={color} focused={focused} />
-              );
-            },
-          }}
-        />
-        <Tabs.Screen
-          name="dijemput"
-          options={{
-            title: "dijemput",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon name={"Jemput"} color={color} focused={focused} />
-              );
-            },
-          }}
-        />
-        <Tabs.Screen
-          name="ditimbang"
-          options={{
-            title: "ditimbang",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon name={"Timbang"} color={color} focused={focused} />
-              );
-            },
-          }}
-        />
-        <Tabs.Screen
-          name="selesai"
-          options={{
-            title: "selesai",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon name={"Selesai"} color={color} focused={focused} />
-              );
-            },
-          }}
-        />
-        <Tabs.Screen
-          name="batal"
-          options={{
-            title: "batal",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon name={"Batal"} color={color} focused={focused} />
-              );
-            },
-          }}
-        />
-      </Tabs>
-    </>
+      />
+      <Tabs.Screen
+        name="diproses"
+        options={{
+          title: "diproses",
+          tabBarIcon: ({ color, focused }) => (
+            <TabsIcon name="diproses" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="dijemput"
+        options={{
+          title: "diJemput",
+          tabBarIcon: ({ color, focused }) => (
+            <TabsIcon name="Jemput" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="selesai"
+        options={{
+          title: "selesai",
+          tabBarIcon: ({ color, focused }) => (
+            <TabsIcon name="selesai" color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="batal"
+        options={{
+          title: "Batal",
+          tabBarIcon: ({ color, focused }) => (
+            <TabsIcon name="Batal" color={color} focused={focused} />
+          ),
+        }}
+      />
+    </Tabs>
   );
 };
 

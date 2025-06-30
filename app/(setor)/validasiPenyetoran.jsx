@@ -26,7 +26,7 @@ const ValidasiPenyetoran = () => {
     if (id) {
       const result = await fetchCekDataPenyetoran(id);
       setData(result);
-      // console.log("DATA PENYETORAN:", result);
+     
     }
   };
 
@@ -76,7 +76,7 @@ const ValidasiPenyetoran = () => {
 
   return (
     <SafeAreaView className="h-full bg-primary">
-      <View className="border border-secondary rounded-lg w-[80%] self-center mt-8">
+      <View className="border border-secondary rounded-lg w-[80%] self-center ">
         {data.imagesampah && (
           <Image
             source={{ uri: getImageUrl(data.imagesampah) }}
@@ -129,7 +129,7 @@ const ValidasiPenyetoran = () => {
               className="bg-green-600 py-3 rounded-xl mx-8 mb-4"
             >
               <Text className="text-white text-center font-bold text-lg">
-                {loading ? "Mengirim..." : "Kirim Kurir"}
+                {loading ? "Mengirim..." : "setujui"}
               </Text>
             </TouchableOpacity>
           ) : (

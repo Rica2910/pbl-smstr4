@@ -84,7 +84,7 @@ const TabsLayout = () => {
                 <TabsIcon
                   name={"campaign"}
                   color={color}
-                  icon={icons.trashcan}
+                  icon={icons.campaign}
                   focused={focused}
                 />
               );

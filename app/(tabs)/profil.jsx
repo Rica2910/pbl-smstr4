@@ -47,10 +47,10 @@ const Profil = () => {
       const counts = {
         diproses: documents.filter(
           (doc) =>
-            doc.status === "Menunggu Penjemputan" || doc.status === "Disetujui"
+            doc.status === "Menunggu Penjemputan" 
         ).length,
         dijemput: documents.filter((doc) => doc.status === "dijemput").length,
-        ditimbang: documents.filter((doc) => doc.status === "ditimbang").length,
+        selesai: documents.filter((doc) => doc.status === "selesai").length,
       };
 
       setStatusCounts(counts);
@@ -82,7 +82,14 @@ const Profil = () => {
   const dummyData = [
     {
       id: "1",
-      title: "Di proses",
+      title: "Menunggu persetujuan",
+      icon: icons.clock,
+      count: statusCounts.diproses,
+      handlePress: () => router.push("/menunggu_persetujuan"),
+    },
+    {
+      id: "2",
+      title: "diproses",
       icon: icons.box,
       count: statusCounts.diproses,
       handlePress: () => router.push("/diproses"),
@@ -96,10 +103,10 @@ const Profil = () => {
     },
     {
       id: "3",
-      title: "Di timbang",
-      icon: icons.neraca,
-      count: statusCounts.ditimbang,
-      handlePress: () => router.push("/ditimbang"),
+      title: "selesai",
+      icon: icons.finishflag,
+      count: statusCounts.selesai,
+      handlePress: () => router.push("/selesai"),
     },
   ];
 
@@ -165,7 +172,7 @@ const Profil = () => {
       <CustomRedeemPointsModal
         visible={isRedeemModalVisible}
         onClose={() => setIsRedeemModalVisible(false)}
-        userPoints={activeUser?.[0]?.coin || 0}
+        userPoints={activeUser?.[0]?.coin || 0 }
         userId={activeUser?.[0]?.$id || ""}
       />
 

@@ -10,7 +10,7 @@ import { useGlobalContext } from "../../context/globalProvider";
 import {
   databaseId,
   db,
-  fetchDataPenyetoran,
+  fetchAllPenyetoran,
   penyetoranCollectionId,
 } from "../../lib/appwrite";
 import { router } from "expo-router";
@@ -53,7 +53,7 @@ const HomeAdmin = () => {
   };
 
   const fetchData = async () => {
-    const response = await fetchDataPenyetoran();
+    const response = await fetchAllPenyetoran();
     setdataArray(response);
   };
 

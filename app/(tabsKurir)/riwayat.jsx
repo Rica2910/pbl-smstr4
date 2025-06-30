@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,29 +8,37 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { router } from "expo-router";
-import CustomButton from "../../components/CustomButton";
-import CustomRiwayatCard from "../../components/CustomRiwayatCard";
-import { icons } from "../../constants";
-import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 import moment from "moment";
 
-const Riwayat = () => {
-  const dummyData = [
-    {
-      id: "1",
-      title: "Pick Up",
-      date: "22 Oktober 2024:15:30 WIB",
-      poin: "+4400 poin",
-      icon: icons.truck,
-    },
-  ];
+import { icons } from "../../constants";
+import CustomButton from "../../components/CustomButton";
+import CustomRiwayatCard from "../../components/CustomRiwayatCard";
+import CustomEmptyState from "../../components/CustomEmptyState";
+import { fetchAllPenyetoran } from "../../lib/appwrite";
 
+const Riwayat = () => {
+  const [allData, setAllData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [filteredData, setFilteredData] = useState(dummyData);
   const [searched, setSearched] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const result = await fetchAllPenyetoran();
+      const selesaiItems = result.filter((item) => item.status === "selesai");
+
+      setAllData(selesaiItems);
+      setFilteredData(selesaiItems); // tampilkan semua selesai secara default
+    } catch (error) {
+      console.log("Gagal mengambil data riwayat:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleConfirm = (date) => {
     setSelectedDate(date);
@@ -40,10 +48,10 @@ const Riwayat = () => {
   const handleSearch = () => {
     if (!selectedDate) return;
 
-    const formattedDate = moment(selectedDate).format("DD MMMM YYYY");
+    const formatted = moment(selectedDate).format("DD MMMM YYYY");
 
-    const hasilFilter = dummyData.filter((item) =>
-      item.date.includes(formattedDate)
+    const hasilFilter = allData.filter((item) =>
+      moment(item.$createdAt).format("DD MMMM YYYY").includes(formatted)
     );
 
     setFilteredData(hasilFilter);
@@ -62,14 +70,14 @@ const Riwayat = () => {
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={filteredData}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.$id}
         numColumns={1}
         renderItem={({ item }) => (
           <CustomRiwayatCard
             title={item.title}
-            date={item.date}
-            poin={item.poin}
-            icon={item.icon}
+            date={moment(item.$createdAt).format("DD MMMM YYYY HH:mm")} // waktu asli
+            poin={`+${item.poin} poin`}
+            icon={icons.truck}
             containerStyles="mt-5 px-4"
           />
         )}

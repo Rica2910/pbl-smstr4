@@ -23,6 +23,14 @@ const Home = () => {
   const [filterStatus, setFilterStatus] = useState("Semua");
   const [items, setItems] = useState([]);
   const { user } = useGlobalContext();
+  const handleSearch = (keyword) => {
+  const filtered = items.filter((item) =>
+    item.title.toLowerCase().includes(keyword.toLowerCase())
+  );
+  setFilterStatus("Semua"); // Reset filter jenis kalau ada
+  setSearch({ search: keyword });
+  setItems(filtered.length > 0 ? filtered : []);
+};
 
   const dummyData = [
     "Semua",
@@ -136,7 +144,7 @@ const Home = () => {
               title="Search"
               placeholder="Cari sampah yang ingin ditambahkan"
               value={search.search}
-              handleChangeText={(e) => setSearch({ ...search, search: e })}
+              handleChangeText={(e) => handleSearch(e)}
             />
             <CustomTypeButton
               data={dummyData}

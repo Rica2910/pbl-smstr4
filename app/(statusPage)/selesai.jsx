@@ -2,7 +2,7 @@ import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import CustomSelesaiCard from "../../components/CustomSelesaiCard";
+import CustomProsesCard from "../../components/CustomProsesCard";
 import { db, config } from "../../lib/appwrite";
 import { Query } from "appwrite";
 
@@ -42,7 +42,7 @@ const Selesai = () => {
           data={dataSelesai}
           keyExtractor={(item) => item.$id}
           renderItem={({ item }) => (
-            <CustomSelesaiCard data={item} containerStyles="px-4" />
+            <CustomProsesCard data={item} containerStyles="px-4" />
           )}
         />
       )}

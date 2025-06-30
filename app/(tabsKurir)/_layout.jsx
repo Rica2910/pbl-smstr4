@@ -57,40 +57,7 @@ const PengelolaTabsLayout = () => {
             },
           }}
         />
-        <Tabs.Screen
-          name="Timbang"
-          options={{
-            title: "Timbang",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon
-                  name={"Timbang"}
-                  color={color}
-                  icon={icons.neraca}
-                  focused={focused}
-                />
-              );
-            },
-          }}
-        />
-        <Tabs.Screen
-          name="penjemputan"
-          options={{
-            title: "Tambah Akun",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => {
-              return (
-                <TabsIcon
-                  name={"jemput"}
-                  color={color}
-                  icon={icons.plus}
-                  focused={focused}
-                />
-              );
-            },
-          }}
-        />
+      
         <Tabs.Screen
           name="riwayat"
           options={{

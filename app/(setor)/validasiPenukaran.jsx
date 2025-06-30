@@ -19,7 +19,6 @@ import {
   updatePenukaranRequest,
 } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/globalProvider";
-import CustomSelectForm from "../../components/CustomSelectForm";
 import * as ImagePicker from "expo-image-picker";
 import CustomButtonFoto from "../../components/CustomButtonFoto";
 import { useLocalSearchParams } from "expo-router";

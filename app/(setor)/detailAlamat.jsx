@@ -14,12 +14,12 @@ import MapView, { Marker } from "react-native-maps";
 import {
   uploadBuktiFotoKurir,
   updateFotoKurirPenyetoran,
+  updateDocumentPenyetoran,
+  tambahPoinKeUser,
+  tambahPenukaranKeUser
 } from "../../lib/Penyetoranaction";
-import {
-  fetchDataPenyetoran,
-} from "../../lib/appwrite";
+import { fetchDataPenyetoran } from "../../lib/appwrite";
 import { icons } from "../../constants";
-
 
 const DetailAlamat = () => {
   const { id } = useGlobalSearchParams();
@@ -37,33 +37,27 @@ const DetailAlamat = () => {
   }, [id]);
 
   const pickImage = async () => {
-  try {
-    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    console.log("Permission result:", permissionResult);
+    try {
+      const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
-    if (!permissionResult.granted) {
-      Alert.alert("Izin Kamera Ditolak", "Silakan aktifkan izin kamera di pengaturan.");
-      return;
+      if (!permissionResult.granted) {
+        Alert.alert("Izin Kamera Ditolak", "Silakan aktifkan izin kamera di pengaturan.");
+        return;
+      }
+
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.3,
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        setImageUri(result.assets[0].uri);
+      }
+    } catch (err) {
+      console.error("Gagal buka kamera:", err);
+      Alert.alert("Gagal membuka kamera", err.message || "Terjadi kesalahan.");
     }
-
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-    });
-
-    console.log("Camera result:", result);
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      setImageUri(result.assets[0].uri);
-    } else {
-      console.log("User batal ambil foto");
-    }
-  } catch (err) {
-    console.error("Gagal buka kamera:", err);
-    Alert.alert("Gagal membuka kamera", err.message || "Terjadi kesalahan.");
-  }
-};
-
+  };
 
   const handleSelesai = async () => {
     try {
@@ -72,14 +66,26 @@ const DetailAlamat = () => {
         return;
       }
 
-      const fileId = await uploadBuktiFotoKurir(imageUri);
+      const fileAsset = {
+        uri: imageUri,
+        mimeType: "image/jpeg",
+        fileSize: 360000,
+      };
 
-      await updateFotoKurirPenyetoran(id, {
-        status: "selesai",
-        buktiFotoKurirrrr: fileId,
-      });
+      const fileId = await uploadBuktiFotoKurir(fileAsset);
 
-      Alert.alert("Berhasil", "Penjemputan selesai.");
+      await updateFotoKurirPenyetoran(id, fileId);
+      await updateDocumentPenyetoran(id, { status: "selesai" });
+      
+
+      console.log(" ID User dari penyetoran:", data.users);
+      console.log("Poin yang akan ditambahkan:", data.poin);
+
+      await tambahPoinKeUser(data.users.$id, data.poin || 0);
+      await tambahPenukaranKeUser(data.users.$id);
+
+
+      Alert.alert("Berhasil", "Penjemputan selesai dan poin ditambahkan.");
       router.back();
     } catch (error) {
       console.error("Gagal menyelesaikan:", error);
@@ -111,16 +117,8 @@ const DetailAlamat = () => {
           <Text>Kecamatan: {data.alamat.kecamatan}</Text>
         </View>
 
-     
         {data.alamat.latitude && data.alamat.longitude && (
-          <View
-            style={{
-              height: 200,
-              marginTop: 15,
-              borderRadius: 10,
-              overflow: "hidden",
-            }}
-          >
+          <View style={{ height: 200, marginTop: 15, borderRadius: 10, overflow: "hidden" }}>
             <MapView
               style={{ flex: 1 }}
               initialRegion={{
@@ -142,50 +140,23 @@ const DetailAlamat = () => {
         )}
 
         <TouchableOpacity
-          onPress={() =>
-            openNavigation(data.alamat.latitude, data.alamat.longitude)
-          }
+          onPress={() => openNavigation(data.alamat.latitude, data.alamat.longitude)}
           className="mt-4 bg-secondary rounded-lg py-2 px-4 self-start"
         >
-          <Text className="text-white font-semibold text-center">
-            buka map
-          </Text>
+          <Text className="text-white font-semibold text-center">buka map</Text>
         </TouchableOpacity>
 
-        
         <TouchableOpacity onPress={pickImage} className="items-center mt-6">
-          <View
-            style={{
-              backgroundColor: "green",
-              borderRadius: 10,
-              paddingHorizontal: 16,
-              paddingVertical: 8,
-            }}
-          >
-            <Image
-              source={icons.camera}
-              style={{
-                width: 30,
-                height: 30,
-                tintColor: "#fff",
-              }}
-              resizeMode="contain"
-            />
+          <View style={{ backgroundColor: "green", borderRadius: 10, paddingHorizontal: 16, paddingVertical: 8 }}>
+            <Image source={icons.camera} style={{ width: 30, height: 30, tintColor: "#fff" }} resizeMode="contain" />
           </View>
-          <Text className="text-center text-sm mt-1 text-gray-500">
-            Upload Bukti Foto
-          </Text>
+          <Text className="text-center text-sm mt-1 text-gray-500">Upload Bukti Foto</Text>
         </TouchableOpacity>
 
         {imageUri && (
           <Image
             source={{ uri: imageUri }}
-            style={{
-              width: "100%",
-              height: 200,
-              marginTop: 10,
-              borderRadius: 10,
-            }}
+            style={{ width: "100%", height: 200, marginTop: 10, borderRadius: 10 }}
           />
         )}
 
