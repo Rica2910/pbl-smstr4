@@ -21,6 +21,7 @@ const SetorLayout = () => {
           name="validasiPenukaran"
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="addCampaign" options={{ headerShown: false }} />
       </Stack>
 
       <StatusBar style="dark" backgroundColor="#fff" />

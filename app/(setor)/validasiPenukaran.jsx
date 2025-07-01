@@ -104,6 +104,8 @@ const ValidasiPenukaran = () => {
                 onPress={pickImage}
                 imagePick={imagePick}
                 placeHolderImage={placeHolderImage}
+                title={"Foto Sampah"}
+                placeHolder={"silahkan masukkan bukti transaksi"}
               />
             </View>
 

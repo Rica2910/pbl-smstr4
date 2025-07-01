@@ -77,6 +77,24 @@ const AdminTabsLayout = () => {
           }}
         />
         <Tabs.Screen
+          name="campaignAdmin"
+          options={{
+            title: "Campaign",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => {
+              return (
+                <TabsIcon
+                  name={"Campaign"}
+                  color={color}
+                  icon={icons.campaign}
+                  focused={focused}
+                  size={"w-8 h-8"}
+                />
+              );
+            },
+          }}
+        />
+        <Tabs.Screen
           name="tambahAkun"
           options={{
             title: "Tambah Akun",

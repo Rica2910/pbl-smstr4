@@ -1,9 +1,15 @@
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import { icons } from "../constants";
-const CustomButtonFoto = ({ onPress, imagePick, placeHolderImage }) => {
+const CustomButtonFoto = ({
+  onPress,
+  imagePick,
+  placeHolderImage,
+  title,
+  placeHolder,
+}) => {
   return (
     <View className="items-center">
-      <Text className="mt-4 font-bold text-xl mb-3">Foto Sampah</Text>
+      <Text className="mt-4 font-bold text-xl mb-3">{title}</Text>
       <TouchableOpacity onPress={onPress}>
         {imagePick ? (
           <Image
@@ -19,9 +25,7 @@ const CustomButtonFoto = ({ onPress, imagePick, placeHolderImage }) => {
               resizeMode="contain"
               style={{ tintColor: "#FFFFFF" }}
             />
-            <Text className="text-primary">
-              Silahkan masukkan bukti transaksi
-            </Text>
+            <Text className="text-primary">{placeHolder}</Text>
           </View>
         )}
       </TouchableOpacity>
