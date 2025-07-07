@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import {
-  View,
-  Text,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-  Alert,
-  Image,
-} from "react-native";
+import { useState } from "react";
+import { View, Text, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import CustomButton from "../../components/CustomButton";
@@ -18,7 +9,6 @@ import { useGlobalContext } from "../../context/globalProvider";
 import * as ImagePicker from "expo-image-picker";
 import CustomButtonFoto from "../../components/CustomButtonFoto";
 import CustomSelectForm from "../../components/CustomSelectForm";
-import { useLocalSearchParams } from "expo-router";
 
 const addCampaign = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);

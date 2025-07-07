@@ -3,11 +3,7 @@ import React from "react";
 import { router } from "expo-router";
 import { icons } from "../constants";
 
-const CustomAddCampaign = ({ title }) => {
-  const handlePress = () => {
-    router.push("/addCampaign");
-  };
-
+const CustomAddCampaign = ({ title, handlePress }) => {
   return (
     <Pressable onPress={handlePress} className="items-center">
       <View className="w-[80%] h-[150px] mt-5">

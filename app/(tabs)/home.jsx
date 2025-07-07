@@ -6,8 +6,15 @@ import CustomTypeButton from "../../components/CustomTypeButton";
 import CustomItemCard from "../../components/CustomItemCard";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
-import { db, ID, config } from "../../lib/appwrite";
+import {
+  databaseId,
+  db,
+  sampahCollectionId,
+  ID,
+  config,
+} from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/globalProvider";
+import { Query } from "appwrite";
 
 const bucketId = "6805fcb3001db0d06f70";
 const projectId = "6805f3350031a662e30f";
@@ -17,20 +24,12 @@ const getImageUrl = (fileId) => {
 };
 
 const Home = () => {
-  const [search, setSearch] = useState({ search: "" });
+  const [dataArray, setdataArray] = useState([]);
+  const [filterStatus, setFilterStatus] = useState("Semua");
+  const [newItemsArray, setNewItemsArray] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [filterStatus, setFilterStatus] = useState("Semua");
-  const [items, setItems] = useState([]);
   const { user } = useGlobalContext();
-  const handleSearch = (keyword) => {
-  const filtered = items.filter((item) =>
-    item.title.toLowerCase().includes(keyword.toLowerCase())
-  );
-  setFilterStatus("Semua"); // Reset filter jenis kalau ada
-  setSearch({ search: keyword });
-  setItems(filtered.length > 0 ? filtered : []);
-};
 
   const dummyData = [
     "Semua",
@@ -42,13 +41,48 @@ const Home = () => {
     "Plastik",
   ];
 
+  const statusMapping = {
+    Semua: ["Elektronik", "Kaca", "Kertas", "Logam", "Minyak", "Plastik"],
+    Elektronik: ["Elektronik"],
+    Kaca: ["Kaca"],
+    Kertas: ["Kertas"],
+    Logam: ["Logam"],
+    Minyak: ["Minyak"],
+    Plastik: ["Plastik"],
+  };
+
+  const filterData = () => {
+    if (!dataArray) return;
+
+    const filtered = dataArray.filter((item) =>
+      statusMapping[filterStatus].includes(item.type)
+    );
+
+    setNewItemsArray(filtered);
+  };
+
+  useEffect(() => {
+    filterData();
+  }, [filterStatus, dataArray]);
+
+  const queryForm = async (inquery) => {
+    try {
+      const response = await db.listDocuments(databaseId, sampahCollectionId, [
+        Query.equal("title", "TV"),
+      ]);
+
+      const res = response.documents;
+      setNewItemsArray([res]);
+      // console.log(res);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
   const fetchItems = async () => {
     try {
       setLoading(true);
-      const response = await db.listDocuments(
-        config.databaseId,
-        config.sampahCollectionId
-      );
+      const response = await db.listDocuments(databaseId, sampahCollectionId);
 
       const fetchedItems = response.documents.map((doc) => ({
         id: doc.$id,
@@ -60,7 +94,7 @@ const Home = () => {
         imagesampah: doc.imagesampah,
       }));
 
-      setItems(fetchedItems);
+      setdataArray(fetchedItems);
     } catch (error) {
       console.error("Gagal mengambil data:", error);
       Alert.alert("Error", "Gagal memuat data dari server.");
@@ -77,6 +111,7 @@ const Home = () => {
   const onRefresh = async () => {
     setRefreshing(true);
     await fetchItems();
+    setRefreshing(false);
   };
 
   const handleAddToTong = async (item) => {
@@ -107,15 +142,15 @@ const Home = () => {
     }
   };
 
-  const filteredItems =
-    filterStatus === "Semua"
-      ? items
-      : items.filter((item) => item.type === filterStatus);
+  // const filteredItems =
+  //   filterStatus === "Semua"
+  //     ? dataArray
+  //     : items.filter((item) => item.type === filterStatus);
 
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
-        data={filteredItems}
+        data={newItemsArray}
         keyExtractor={(item) => item.id}
         numColumns={2}
         renderItem={({ item }) => (
@@ -143,8 +178,7 @@ const Home = () => {
             <CustomSearchField
               title="Search"
               placeholder="Cari sampah yang ingin ditambahkan"
-              value={search.search}
-              handleChangeText={(e) => handleSearch(e)}
+              onEndEditing={(e) => queryForm(e)}
             />
             <CustomTypeButton
               data={dummyData}

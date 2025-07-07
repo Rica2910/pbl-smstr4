@@ -24,6 +24,8 @@ import twoArrows from "../assets/icons/two-arrows.png";
 import clock from "../assets/icons/clock.png";
 import finishflag from "../assets/icons/finishflag.png";
 import campaign from "../assets/icons/campaign.png";
+import like from "../assets/icons/like.png";
+import heart from "../assets/icons/heart.png";
 
 export default {
   play,
@@ -51,5 +53,7 @@ export default {
   twoArrows,
   clock,
   finishflag,
-  campaign
+  campaign,
+  like,
+  heart,
 };

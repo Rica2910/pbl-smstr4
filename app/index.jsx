@@ -27,8 +27,10 @@ export default function App() {
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className="items-center justify-center w-full h-full px-4">
           <Text className="text-3xl color-black font-bold">
-            Membantu pengendalian sampah bersama{" "}
-            <Text className="color-secondary">Re-App</Text>
+            Membantu pengendalian
+          </Text>
+          <Text className="text-3xl color-black font-bold">
+            sampah bersama <Text className="color-secondary">Re-App</Text>
           </Text>
 
           <View className="mt-4 justify-center items-center">

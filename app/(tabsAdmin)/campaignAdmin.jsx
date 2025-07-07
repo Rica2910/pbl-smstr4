@@ -6,16 +6,35 @@ import CustomTypeButton from "../../components/CustomTypeButton";
 import CustomCampaigncard from "../../components/CustomCampaigncard";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
-import { db, ID, config, fetchAllCampaign } from "../../lib/appwrite";
+import {
+  db,
+  ID,
+  config,
+  fetchAllCampaign,
+  fetchAllLikeFromUser,
+} from "../../lib/appwrite";
 import CustomAddCampaign from "../../components/CustomAddCampaign";
+import { useGlobalContext } from "../../context/globalProvider";
+import { router } from "expo-router";
 
 const CampaignAdmin = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [dataArrayCampaign, setDataArrayCampaign] = useState();
+  const [liked, setLiked] = useState({});
+  const { user } = useGlobalContext();
+  const userId = user.$id;
 
   useEffect(() => {
+    fetchLike();
     fetchData();
   }, []);
+
+  const fetchLike = async () => {
+    const res = await fetchAllLikeFromUser(userId);
+    const liked = {};
+    res.forEach((doc) => (liked[doc.campaign.$id] = true));
+    setLiked(liked);
+  };
 
   const fetchData = async () => {
     const res = await fetchAllCampaign();
@@ -24,10 +43,14 @@ const CampaignAdmin = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
+    fetchLike();
     fetchData();
+    console.log(liked);
     setRefreshing(false);
   };
-
+  const handlePress = () => {
+    router.push("/addCampaign");
+  };
   return (
     <SafeAreaView className="bg-primary h-full ">
       <FlatList
@@ -40,10 +63,16 @@ const CampaignAdmin = () => {
             tanggal={item.$createdAt}
             thumbnail={item.thumbnail}
             like={item.like}
+            userId={userId}
+            liked={liked}
+            setLiked={setLiked}
           />
         )}
         ListHeaderComponent={() => (
-          <CustomAddCampaign title={"Tambah Campaign"} />
+          <CustomAddCampaign
+            title={"Tambah Campaign"}
+            handlePress={handlePress}
+          />
         )}
         ListEmptyComponent={() => (
           <CustomEmptyState

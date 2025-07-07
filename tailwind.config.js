@@ -18,8 +18,7 @@ module.exports = {
           200: "#232533",
         },
         gray: {
-
-          80 : "#D3D3D3",
+          80: "#D3D3D3",
           50: "#f9fafb",
           100: "#CDCDE0",
           80: "#4D4D4D",
@@ -28,6 +27,7 @@ module.exports = {
         goldenRod: "#DAA520",
         silver: "#C0C0C0",
         bronze: "#CE8946",
+        shadow: "#000000c0",
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],

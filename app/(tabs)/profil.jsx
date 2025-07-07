@@ -46,8 +46,7 @@ const Profil = () => {
 
       const counts = {
         diproses: documents.filter(
-          (doc) =>
-            doc.status === "Menunggu Penjemputan" 
+          (doc) => doc.status === "Menunggu Penjemputan"
         ).length,
         dijemput: documents.filter((doc) => doc.status === "dijemput").length,
         selesai: documents.filter((doc) => doc.status === "selesai").length,
@@ -95,14 +94,14 @@ const Profil = () => {
       handlePress: () => router.push("/diproses"),
     },
     {
-      id: "2",
+      id: "3",
       title: "Di jemput",
       icon: icons.truckStatus,
       count: statusCounts.dijemput,
       handlePress: () => router.push("/dijemput"),
     },
     {
-      id: "3",
+      id: "4",
       title: "selesai",
       icon: icons.finishflag,
       count: statusCounts.selesai,
@@ -172,7 +171,7 @@ const Profil = () => {
       <CustomRedeemPointsModal
         visible={isRedeemModalVisible}
         onClose={() => setIsRedeemModalVisible(false)}
-        userPoints={activeUser?.[0]?.coin || 0 }
+        userPoints={activeUser?.[0]?.coin || 0}
         userId={activeUser?.[0]?.$id || ""}
       />
 

@@ -1,20 +1,15 @@
-import {
-  View,
-  Text,
-  FlatList,
-  RefreshControl,
-} from "react-native";
+import { View, Text, FlatList, RefreshControl } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import {  icons } from "../../constants";
+import { icons } from "../../constants";
 import CustomButtonStatus from "../../components/CustomButtonStatus";
 import CustomProfilHeader from "../../components/CustomProfilHeader";
 import CustomGap from "../../components/CustomGap";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
 import { currentActiveAccount, signOut } from "../../lib/appwrite";
-import { db, config } from "../../lib/appwrite"; 
+import { db, config } from "../../lib/appwrite";
 
 const Profil = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -26,31 +21,28 @@ const Profil = () => {
     ditimbang: 0,
   });
 
-
   const fetchStatusCounts = async () => {
-      try {
-        const response = await db.listDocuments(
-          config.databaseId,
-          config.penyetoranCollectionId
-        );
-  
-        const documents = response.documents;
-  
-        const counts = {
-          diproses: documents.filter(
-            (doc) =>
-              doc.status === "Menunggu Penjemputan" 
-          ).length,
-          dijemput: documents.filter((doc) => doc.status === "dijemput").length,
-          selesai: documents.filter((doc) => doc.status === "selesai").length,
-        };
-  
-        setStatusCounts(counts);
-      } catch (error) {
-        console.error("Gagal mengambil data status:", error);
-      }
-    };
+    try {
+      const response = await db.listDocuments(
+        config.databaseId,
+        config.penyetoranCollectionId
+      );
 
+      const documents = response.documents;
+
+      const counts = {
+        diproses: documents.filter(
+          (doc) => doc.status === "Menunggu Penjemputan"
+        ).length,
+        dijemput: documents.filter((doc) => doc.status === "dijemput").length,
+        selesai: documents.filter((doc) => doc.status === "selesai").length,
+      };
+
+      setStatusCounts(counts);
+    } catch (error) {
+      console.error("Gagal mengambil data status:", error);
+    }
+  };
 
   const fetchCurrentActiveUser = async () => {
     const user = await currentActiveAccount();
@@ -59,7 +51,7 @@ const Profil = () => {
 
   useEffect(() => {
     fetchCurrentActiveUser();
-      fetchStatusCounts();
+    fetchStatusCounts();
   }, []);
 
   const onRefresh = async () => {
@@ -68,36 +60,36 @@ const Profil = () => {
     setRefreshing(false);
   };
 
- const dummyData = [
-     {
-       id: "1",
-       title: "Menunggu persetujuan",
-       icon: icons.clock,
-       count: statusCounts.diproses,
-       handlePress: () => router.push("/menunggu_persetujuan"),
-     },
-     {
-       id: "2",
-       title: "diproses",
-       icon: icons.box,
-       count: statusCounts.diproses,
-       handlePress: () => router.push("/diproses"),
-     },
-     {
-       id: "2",
-       title: "Di jemput",
-       icon: icons.truckStatus,
-       count: statusCounts.dijemput,
-       handlePress: () => router.push("/dijemput"),
-     },
-     {
-       id: "3",
-       title: "selesai",
-       icon: icons.finishflag,
-       count: statusCounts.selesai,
-       handlePress: () => router.push("/selesai"),
-     },
-   ];
+  const dummyData = [
+    {
+      id: "1",
+      title: "Menunggu persetujuan",
+      icon: icons.clock,
+      count: statusCounts.diproses,
+      handlePress: () => router.push("/menunggu_persetujuan"),
+    },
+    {
+      id: "2",
+      title: "diproses",
+      icon: icons.box,
+      count: statusCounts.diproses,
+      handlePress: () => router.push("/diproses"),
+    },
+    {
+      id: "3",
+      title: "Di jemput",
+      icon: icons.truckStatus,
+      count: statusCounts.dijemput,
+      handlePress: () => router.push("/dijemput"),
+    },
+    {
+      id: "4",
+      title: "selesai",
+      icon: icons.finishflag,
+      count: statusCounts.selesai,
+      handlePress: () => router.push("/selesai"),
+    },
+  ];
 
   return (
     <SafeAreaView className="bg-primary h-full">

@@ -72,7 +72,7 @@ const ValidasiPenukaran = () => {
     setIsSubmitting(true);
     try {
       const result = await updatePenukaranRequest(id, imagePick);
-      Alert.alert("Berhail", "Bukti traksaksi berhasil di upload");
+      Alert.alert("Berhasil", "Bukti traksaksi berhasil di upload");
 
       router.push("/penukaranKoin");
     } catch (error) {
@@ -104,13 +104,13 @@ const ValidasiPenukaran = () => {
                 onPress={pickImage}
                 imagePick={imagePick}
                 placeHolderImage={placeHolderImage}
-                title={"Foto Sampah"}
+                title={"Foto transaksi"}
                 placeHolder={"silahkan masukkan bukti transaksi"}
               />
             </View>
 
             <CustomButton
-              title="Daftar"
+              title="Update"
               handlePress={submit}
               containerStyles={" mt-3 h-[55px]"}
               isLoading={isSubmitting}

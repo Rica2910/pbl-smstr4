@@ -1,12 +1,20 @@
-import React from 'react';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
+import React from "react";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 const SetorLayout = () => {
   return (
     <>
       <Stack>
         <Stack.Screen name="detailcampaign" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="detailCampaignAdmin"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="tambahFotoCampaign"
+          options={{ headerShown: false }}
+        />
       </Stack>
 
       <StatusBar style="dark" backgroundColor="#fff" />
