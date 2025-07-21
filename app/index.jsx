@@ -41,7 +41,7 @@ export default function App() {
             </Text>
 
             <CustomButton
-              title="Continue with Email"
+              title="Lanjutkan dengan email"
               handlePress={() => router.push("/sign-in")}
               containerStyles={" mt-7 h-[55px]"}
             />
