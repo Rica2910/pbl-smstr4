@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { StatusBar } from "expo-status-bar";
 import moment from "moment";
+import { useRouter } from "expo-router";
 
 import { icons } from "../../constants";
 import CustomButton from "../../components/CustomButton";
@@ -24,13 +19,15 @@ const Riwayat = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [searched, setSearched] = useState(false);
 
+  const router = useRouter();
+
   const fetchData = async () => {
     try {
       const result = await fetchAllPenyetoran();
       const selesaiItems = result.filter((item) => item.status === "selesai");
 
       setAllData(selesaiItems);
-      setFilteredData(selesaiItems); // tampilkan semua selesai secara default
+      setFilteredData(selesaiItems);
     } catch (error) {
       console.log("Gagal mengambil data riwayat:", error);
     }
@@ -73,13 +70,22 @@ const Riwayat = () => {
         keyExtractor={(item) => item.$id}
         numColumns={1}
         renderItem={({ item }) => (
-          <CustomRiwayatCard
-            title={item.title}
-            date={moment(item.$createdAt).format("DD MMMM YYYY HH:mm")} // waktu asli
-            poin={`+${item.poin} poin`}
-            icon={icons.truck}
-            containerStyles="mt-5 px-4"
-          />
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: "/detailRiwayat",
+                params: { id: item.$id },
+              })
+            }
+          >
+            <CustomRiwayatCard
+              title={item.title}
+              date={moment(item.$createdAt).format("DD MMMM YYYY HH:mm")}
+              poin={`+${item.poin} poin`}
+              icon={icons.truck}
+              containerStyles="mt-5 px-4"
+            />
+          </TouchableOpacity>
         )}
         ListHeaderComponent={() => (
           <View>

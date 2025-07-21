@@ -175,11 +175,6 @@ const Home = () => {
                 </Text>
               </View>
             </View>
-            <CustomSearchField
-              title="Search"
-              placeholder="Cari sampah yang ingin ditambahkan"
-              onEndEditing={(e) => queryForm(e)}
-            />
             <CustomTypeButton
               data={dummyData}
               filterStatus={filterStatus}
