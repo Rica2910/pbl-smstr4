@@ -1,7 +1,7 @@
 import { View, Text, FlatList, RefreshControl, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomCampaigncard from "../../components/CustomCampaigncard";
+import CustomCampaignCardUser from "../../components/CustomCampaingCardUser";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { StatusBar } from "expo-status-bar";
 import { fetchAllCampaign, fetchAllLikeFromUser } from "../../lib/appwrite";
@@ -45,7 +45,7 @@ const campaign = () => {
         keyExtractor={(item) => item.id}
         numColumns={1}
         renderItem={({ item }) => (
-          <CustomCampaigncard
+          <CustomCampaignCardUser
             id={item.$id}
             title={item.judul}
             tanggal={item.$createdAt}

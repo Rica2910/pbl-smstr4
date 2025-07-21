@@ -7,7 +7,7 @@ import CustomFotoCampaign from "../../components/CustomFotoCampaign";
 import CustomEmptyState from "../../components/CustomEmptyState";
 import { fetchFotoCampaign } from "../../lib/appwrite";
 
-const DetailCampaignPenyumbang = () => {
+const DetailCampaign = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [data, setData] = useState([]);
   const { title, id, userId, tanggal } = useLocalSearchParams();
@@ -61,4 +61,4 @@ const DetailCampaignPenyumbang = () => {
   );
 };
 
-export default DetailCampaignPenyumbang;
+export default DetailCampaign;

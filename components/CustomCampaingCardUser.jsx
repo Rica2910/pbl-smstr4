@@ -11,7 +11,7 @@ const getImageUrl = (fileId) => {
   return `https://cloud.appwrite.io/v1/storage/buckets/${bucketId}/files/${fileId}/view?project=${projectId}`;
 };
 
-const CustomCampaigncard = ({
+const CustomCampaignCardUser = ({
   title,
   id,
   tanggal,
@@ -25,7 +25,7 @@ const CustomCampaigncard = ({
 
   const handlePress = () => {
     router.push({
-      pathname: "/detailCampaignAdmin",
+      pathname: "/detailcampaign",
       params: { title, id, userId, tanggal },
     });
   };
@@ -64,13 +64,13 @@ const CustomCampaigncard = ({
           >
             <View className="w-full p-4 bg-shadow justify-around items-center flex-row">
               <Text className="font-bold text-primary">{title}</Text>
-              {/* <CustomLikeButton
+              <CustomLikeButton
                 like={like}
                 user={userId}
                 likeFunction={addLike}
                 dislikeFunction={removeLike}
                 liked={isLiked}
-              /> */}
+              />
             </View>
           </ImageBackground>
         </View>
@@ -79,4 +79,4 @@ const CustomCampaigncard = ({
   );
 };
 
-export default CustomCampaigncard;
+export default CustomCampaignCardUser;
